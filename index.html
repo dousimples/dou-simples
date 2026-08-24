@@ -69,21 +69,21 @@
     @media (max-width: 600px) { .feed-grid { grid-template-columns: 1fr; } }
 
     /* Card Fechado */
-    .news-card { position: relative; height: 340px; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; cursor: pointer; }
+    .news-card { position: relative; height: 360px; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; cursor: pointer; }
     .news-card:hover { transform: translateY(-4px); }
 
     .news-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
-    .news-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.1) 100%); z-index: 2; }
+    .news-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.1) 100%); z-index: 2; }
     
     .news-content { position: relative; z-index: 3; padding: 20px; color: white; }
-    .news-tag { font-size: 0.75rem; font-weight: 600; opacity: 0.9; text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
-    .news-title { font-size: 1.15rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+    .news-tag { font-size: 0.75rem; font-weight: 700; opacity: 0.95; text-transform: uppercase; margin-bottom: 6px; display: inline-block; padding: 2px 8px; border-radius: 4px; background: var(--in-green); letter-spacing: 0.5px; }
+    .news-title { font-size: 1.1rem; font-weight: 800; line-height: 1.3; margin-bottom: 8px; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
     .news-desc { font-size: 0.82rem; opacity: 0.9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 12px; }
 
     .news-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; margin-top: 8px; }
-    .news-click-prompt { font-size: 0.75rem; font-weight: 700; color: #60A5FA; display: flex; align-items: center; gap: 4px; }
+    .news-click-prompt { font-size: 0.78rem; font-weight: 700; color: #60A5FA; display: flex; align-items: center; gap: 4px; }
 
-    /* Card Expandido (Quando Clicado) */
+    /* Card Expandido (Dentro do Grid) */
     .news-card.expanded {
       grid-column: 1 / -1;
       height: auto;
@@ -91,37 +91,43 @@
       color: var(--text-dark);
       cursor: default;
       transform: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
       border: 2px solid var(--in-blue);
-      padding: 24px;
+      padding: 28px;
       display: block;
     }
     .news-card.expanded .news-bg,
     .news-card.expanded .news-overlay,
     .news-card.expanded .news-content { display: none; }
 
-    .expanded-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px; gap: 16px; }
-    .expanded-title { font-size: 1.4rem; font-weight: 800; color: var(--in-blue); line-height: 1.3; }
-    .btn-close-expanded { background: #E2E8F0; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .expanded-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 16px; gap: 16px; }
+    .expanded-title { font-size: 1.5rem; font-weight: 800; color: var(--in-blue); line-height: 1.3; }
+    .btn-close-expanded { background: #E2E8F0; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.3rem; font-weight: bold; cursor: pointer; color: var(--text-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .btn-close-expanded:hover { background: #CBD5E1; }
 
-    .expanded-body { display: flex; flex-direction: column; gap: 16px; }
-    .expanded-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; }
-    .expanded-resumo { background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: #1E40AF; font-weight: 600; line-height: 1.4; }
-    .expanded-texto { font-size: 1rem; line-height: 1.6; color: var(--text-dark); white-space: pre-wrap; margin-top: 8px; }
+    .expanded-body { display: flex; flex-direction: column; gap: 18px; }
+    .expanded-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); }
+    .expanded-resumo { background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 16px; border-radius: 0 8px 8px 0; font-size: 0.98rem; color: #1E40AF; font-weight: 600; line-height: 1.5; }
     
-    .expanded-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; flex-wrap: wrap; gap: 12px; }
-    .btn-link-dou { background: var(--in-blue); color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
-    .btn-link-dou:hover { opacity: 0.9; }
+    .section-block { background: #F8FAFC; border: 1px solid #E2E8F0; padding: 16px; border-radius: 8px; }
+    .section-title { font-size: 0.9rem; font-weight: 800; color: var(--in-blue); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+
+    .expanded-texto { font-size: 1rem; line-height: 1.7; color: var(--text-dark); white-space: pre-wrap; }
+    .historico-texto { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); white-space: pre-wrap; }
+
+    .expanded-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 18px; margin-top: 18px; flex-wrap: wrap; gap: 12px; }
+    .btn-link-custom { background: var(--in-blue); color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+    .btn-link-custom:hover { opacity: 0.9; }
+    .btn-link-planalto { background: #334155; }
 
     .admin-btns { display: flex; gap: 8px; }
-    .btn-admin { border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+    .btn-admin { border: none; padding: 8px 14px; border-radius: 4px; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
     .btn-admin.edit { background: #FBBF24; color: #78350F; }
     .btn-admin.delete { background: #F87171; color: #7F1D1D; }
 
     /* Modal Formulário de Publicação */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 43, 73, 0.75); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px; }
-    .modal-content { background: white; width: 100%; max-width: 600px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+    .modal-content { background: white; width: 100%; max-width: 650px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
     .modal-header h3 { font-size: 1.1rem; color: var(--in-blue); font-weight: 800; }
     .btn-close-modal { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); }
@@ -166,21 +172,11 @@
     <!-- Botões dos Eixos -->
     <div class="eixos-header">Filtrar por Eixo:</div>
     <section class="eixos-grid">
-      <button class="eixo-btn todos active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">
-        🌐 Todos
-      </button>
-      <button class="eixo-btn inst" id="card-eixo-institucional" onclick="filtrarEixo('Institucional')">
-        🏛️ Institucional
-      </button>
-      <button class="eixo-btn econ" id="card-eixo-economico" onclick="filtrarEixo('Econômico')">
-        💰 Econômico
-      </button>
-      <button class="eixo-btn soc" id="card-eixo-social" onclick="filtrarEixo('Social')">
-        👥 Social
-      </button>
-      <button class="eixo-btn amb" id="card-eixo-ambiental" onclick="filtrarEixo('Ambiental')">
-        🌱 Ambiental
-      </button>
+      <button class="eixo-btn todos active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">🌐 Todos</button>
+      <button class="eixo-btn inst" id="card-eixo-institucional" onclick="filtrarEixo('Institucional')">🏛️ Institucional</button>
+      <button class="eixo-btn econ" id="card-eixo-economico" onclick="filtrarEixo('Econômico')">💰 Econômico</button>
+      <button class="eixo-btn soc" id="card-eixo-social" onclick="filtrarEixo('Social')">👥 Social</button>
+      <button class="eixo-btn amb" id="card-eixo-ambiental" onclick="filtrarEixo('Ambiental')">🌱 Ambiental</button>
     </section>
 
     <!-- Feed de Noticias -->
@@ -226,8 +222,18 @@
         </div>
 
         <div class="form-group">
+          <label for="link_planalto">Link do Histórico no Planalto (URL)</label>
+          <input type="url" id="link_planalto" placeholder="http://www.planalto.gov.br/ccivil_03/...">
+        </div>
+
+        <div class="form-group">
           <label for="resumo">Resumo da Medida (Ementa Simples)</label>
           <textarea id="resumo" rows="2" placeholder="Síntese curta do que muda para o cidadão..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="historico">Histórico da Medida</label>
+          <textarea id="historico" rows="2" placeholder="Explique o contexto histórico e as leis originais..."></textarea>
         </div>
 
         <div class="form-group">
@@ -249,38 +255,47 @@
     const SUPABASE_KEY = 'sb_publishable_EmZcTTfqPGMBG7_rjzh09g_18qMQ-AB';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    /* Lista Completa de Matérias Iniciais com Texto Completo, Histórico, Links e Fotos Temáticas */
     const MATERIAS_INICIAIS = [
       {
         titulo: "Portaria Conjunta nº 42 - Regras Simplificadas para Solicitação do BPC",
         categoria: "Social",
         link_dou: "https://www.in.gov.br/web/dou/-/portaria-conjunta-n-42",
-        imagem_url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600&q=80",
-        resumo: "Facilita a solicitação e o acompanhamento do BPC para idosos e PCDs.",
-        conteudo: "O Governo Federal simplificou a comprovação de renda e a perícia para o Benefício de Prestação Continuada (BPC).\n\nA partir de agora, as atualizações cadastrais podem ser feitas pelo aplicativo 'Meu INSS' ou presencialmente no CRAS da sua cidade, sem necessidade de deslocamento a agências bancárias."
+        link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/l8742.htm",
+        imagem_url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1000&q=80",
+        resumo: "O Governo Federal simplificou as exigências para idosos e pessoas com deficiência solicitarem o Benefício de Prestação Continuada (BPC) sem burocracia.",
+        historico: "O Benefício de Prestação Continuada foi criado pela Lei Orgânica da Assistência Social (LOAS - Lei nº 8.742/1993). Ao longo dos anos, o excesso de exigências presenciais gerou grandes filas de espera nas agências do INSS. Esta nova portaria moderniza o processo previsto na lei original.",
+        conteudo: "A nova Portaria Conjunta nº 42 facilita o acesso de milhares de brasileiros ao Benefício de Prestação Continuada (BPC).\n\nO que muda na prática:\n1. Comprovação de Renda Simplificada: A verificação de renda familiar agora é feita automaticamente pelo sistema do Cadastro Único (CadÚnico), sem necessidade de apresentar pilhas de papéis.\n2. Perícia Médica Online: Pessoas com deficiência poderão anexar laudos médicos diretamente pelo aplicativo 'Meu INSS', acelerando a análise técnica.\n3. Atendimento no CRAS: Não é mais necessário ir até uma agência bancária ou do INSS para tirar dúvidas; o atendimento inicial pode ser feito diretamente no CRAS do seu município."
       },
       {
-        titulo: "Decreto nº 11.890 - Recompensa por Economia e Preservação Ambiental",
+        titulo: "Decreto nº 11.890 - Programa de Incentivo à Preservação Ambiental e Redução de Tarifas",
         categoria: "Ambiental",
         link_dou: "https://www.in.gov.br/web/dou/-/decreto-n-11.890",
-        imagem_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80",
-        resumo: "Incentivos financeiros para quem economizar recursos naturais e preservar áreas verdes.",
-        conteudo: "Incentivo financeiro e descontos em tarifas públicos direcionados a famílias e pequenos agricultores que reduzirem o consumo de água e energia elétrica ou mantiverem a vegetação nativa preservada em suas propriedades."
+        link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/l12651.htm",
+        imagem_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1000&q=80",
+        resumo: "Famílias e pequenos produtores rurais que economizarem água e preservarem matas nativas terão descontos em contas públicas.",
+        historico: "Esta medida complementa as diretrizes estabelecidas pelo Código Florestal Brasileiro (Lei nº 12.651/2012) e pela Lei de Gestão de Florestas Públicas, criando incentivos financeiros diretos para o cidadão que preserva.",
+        conteudo: "O Decreto nº 11.890 institui o programa de recompensa ecológica para cidadãos e pequenos produtores.\n\nPrincipais benefícios para o cidadão:\n- Desconto na Conta de Água e Luz: Famílias que comprovarem redução contínua no consumo mensal ou captação de água da chuva terão até 15% de abatimento.\n- Apoio ao Pequeno Produtor Rural: Quem mantiver áreas de preservação permanente (APP) conservadas terá prioridade e subsídio em financiamentos agrícolas.\n- Inscrição Simplificada: A adesão é feita gratuitamente através do portal oficial de serviços ambientais do governo."
       },
       {
-        titulo: "Instrução Normativa nº 15 - Diretrizes de Linguagem Simples",
+        titulo: "Instrução Normativa nº 15 - Uso Obrigatório da Linguagem Simples nos Atos Oficiais",
         categoria: "Institucional",
         link_dou: "https://www.in.gov.br/web/dou/-/instrucao-normativa-n-15",
-        imagem_url: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80",
-        resumo: "Obrigatório o uso de texto claro e direto em publicações públicas.",
-        conteudo: "Todos os documentos publicados do governo no Diário Oficial devem obrigatoriamente trazer um resumo simples para eliminar termos técnicos e o juridiquês, aproximando a informação pública da população."
+        link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/l13460.htm",
+        imagem_url: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1000&q=80",
+        resumo: "Todos os órgãos públicos da administração federal são obrigados a publicar resumos em linguagem clara e acessível no Diário Oficial.",
+        historico: "A iniciativa fundamenta-se na Lei de Defesa dos Direitos do Usuário do Serviço Público (Lei nº 13.460/2017) e na Lei de Acesso à Informação (Lei nº 12.527/2011), visando garantir que todo cidadão entenda as leis sem precisar de auxílio técnico.",
+        conteudo: "A Instrução Normativa nº 15 estabelece um novo padrão de comunicação transparente para a administração pública federal.\n\nRegras estabelecidas:\n- Fim do 'Juridiquês': Fica proibido o uso excessivo de termos em latim ou jargões técnicos sem a devida explicação direta.\n- Resumo Obrigatório: Toda nova lei, portaria ou decreto deve obrigatoriamente trazer um quadro explicativo em linguagem simples antes do texto normativo detalhado.\n- Formato Acessível: Os textos digitais devem ser compatíveis com leitores de tela para pessoas com deficiência visual."
       },
       {
-        titulo: "Medida Provisória nº 1.250 - Programa de Crédito ao Pequeno Negócio",
+        titulo: "Medida Provisória nº 1.250 - Programa de Crédito Facilitado para MEIs e Microempresas",
         categoria: "Econômico",
         link_dou: "https://www.in.gov.br/web/dou/-/medida-provisoria-n-1.250",
-        imagem_url: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=600&q=80",
-        resumo: "Juros baixos e facilidades para microempreendedores e MEIs.",
-        conteudo: "Linha especial de financiamento com juros reduzidos para MEIs e comerciantes de pequeno porte para capital de giro e investimento em infraestrutura."
+        link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm",
+        imagem_url: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=1000&q=80",
+        resumo: "Nova linha de financiamento com juros reduzidos e carência estendida para impulsionar pequenos negócios.",
+        historico: "A Medida Provisória atualiza e amplia os benefícios contidos no Estatuto Nacional da Microempresa e da Empresa de Pequeno Porte (Lei Complementar nº 123/2006), reforçando o apoio ao empreendedorismo formal.",
+        conteudo: "A Medida Provisória nº 1.250 liberta novas linhas de crédito garantidas pelo Fundo Operacional de Desenvolvimento.\n\nComo funciona para o microempreendedor:\n- Taxas de Juros Reduzidas: Juros prefixados abaixo da taxa média de mercado para capital de giro.\n- Prazo de Carência: O empreendedor terá até 12 meses para começar a pagar as parcelas do empréstimo.\n- Solicitação Digital: A contratação é realizada diretamente nos bancos públicos parceiros ou pelo aplicativo Gov.br, eliminando intermediários."
       }
     ];
 
@@ -323,6 +338,7 @@
         const bateEixo = (eixoSelecionado === 'Todas') || (m.categoria === eixoSelecionado);
         const bateBusca = (m.titulo || '').toLowerCase().includes(termo) ||
                           (m.resumo || '').toLowerCase().includes(termo) ||
+                          (m.historico || '').toLowerCase().includes(termo) ||
                           (m.conteudo || '').toLowerCase().includes(termo);
         return bateEixo && bateBusca;
       });
@@ -337,34 +353,52 @@
       }
 
       container.innerHTML = filtradas.map(m => {
-        const bgImg = m.imagem_url || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80';
+        const bgImg = m.imagem_url || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80';
         const isExpanded = (materiaAbertaId === m.id);
 
         if (isExpanded) {
-          /* Renderização Expandida */
+          /* Renderização do Card Expandido com Texto Completo, Histórico e Links */
           const linkDouBtn = m.link_dou 
-            ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="btn-link-dou">🔗 Ver Ato Oficial no DOU</a>` 
+            ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="btn-link-custom">🔗 Ver Ato Oficial no DOU</a>` 
             : '';
 
-          const imgHtml = m.imagem_url ? `<img src="${escaparHtml(m.imagem_url)}" class="expanded-img" alt="Capa">` : '';
-          const resumoHtml = m.resumo ? `<div class="expanded-resumo">${escaparHtml(m.resumo)}</div>` : '';
+          const linkPlanaltoBtn = m.link_planalto 
+            ? `<a href="${escaparHtml(m.link_planalto)}" target="_blank" rel="noopener noreferrer" class="btn-link-custom btn-link-planalto">🏛️ Histórico no Portal do Planalto</a>` 
+            : '';
+
+          const imgHtml = m.imagem_url ? `<img src="${escaparHtml(m.imagem_url)}" class="expanded-img" alt="Imagem Ilustrativa">` : '';
+          const resumoHtml = m.resumo ? `<div class="expanded-resumo"><strong>Resumo da Medida:</strong> ${escaparHtml(m.resumo)}</div>` : '';
+          
+          const historicoHtml = m.historico ? `
+            <div class="section-block">
+              <div class="section-title">📜 Contexto e Histórico da Norma</div>
+              <div class="historico-texto">${escaparHtml(m.historico)}</div>
+            </div>
+          ` : '';
 
           return `
             <article class="news-card expanded" id="card-${m.id}">
               <div class="expanded-header">
                 <div>
-                  <span class="news-tag" style="color: var(--in-blue); font-weight:800; font-size:0.8rem;">${escaparHtml(m.categoria || 'Geral')}</span>
-                  <h2 class="expanded-title">${escaparHtml(m.titulo)}</h2>
+                  <span class="news-tag">${escaparHtml(m.categoria || 'Geral')}</span>
+                  <h2 class="expanded-title" style="margin-top:8px;">${escaparHtml(m.titulo)}</h2>
                 </div>
                 <button class="btn-close-expanded" title="Fechar matéria" onclick="fecharCard()">&times;</button>
               </div>
               <div class="expanded-body">
                 ${imgHtml}
                 ${resumoHtml}
-                <div class="expanded-texto">${escaparHtml(m.conteudo)}</div>
+                ${historicoHtml}
+                <div class="section-block" style="background:#fff; border-color:var(--border-color);">
+                  <div class="section-title">💡 Explicação em Linguagem Simples</div>
+                  <div class="expanded-texto">${escaparHtml(m.conteudo)}</div>
+                </div>
               </div>
               <div class="expanded-actions">
-                ${linkDouBtn}
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  ${linkDouBtn}
+                  ${linkPlanaltoBtn}
+                </div>
                 <div class="admin-btns">
                   <button class="btn-admin edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
                   <button class="btn-admin delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
@@ -374,7 +408,7 @@
           `;
         }
 
-        /* Renderização Card Padrão */
+        /* Renderização do Card Fechado */
         return `
           <article class="news-card" onclick="expandirCard(${m.id})">
             <div class="news-bg" style="background-image: url('${escaparHtml(bgImg)}');"></div>
@@ -396,7 +430,6 @@
     function expandirCard(id) {
       materiaAbertaId = id;
       renderizarFeed();
-      // Rola suavemente até o card expandido
       setTimeout(() => {
         const elem = document.getElementById(`card-${id}`);
         if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -441,10 +474,12 @@
       const categoria = document.getElementById('categoria').value;
       const imagem_url = document.getElementById('imagem_url').value.trim();
       const link_dou = document.getElementById('link_dou').value.trim();
+      const link_planalto = document.getElementById('link_planalto').value.trim();
       const resumo = document.getElementById('resumo').value.trim();
+      const historico = document.getElementById('historico').value.trim();
       const conteudo = document.getElementById('conteudo').value.trim();
 
-      const payload = { titulo, categoria, imagem_url, link_dou, resumo, conteudo };
+      const payload = { titulo, categoria, imagem_url, link_dou, link_planalto, resumo, historico, conteudo };
 
       if (id) {
         const { error } = await _supabase.from('materias').update(payload).eq('id', id);
@@ -465,7 +500,9 @@
       document.getElementById('categoria').value = m.categoria || 'Institucional';
       document.getElementById('imagem_url').value = m.imagem_url || '';
       document.getElementById('link_dou').value = m.link_dou || '';
+      document.getElementById('link_planalto').value = m.link_planalto || '';
       document.getElementById('resumo').value = m.resumo || '';
+      document.getElementById('historico').value = m.historico || '';
       document.getElementById('conteudo').value = m.conteudo || '';
       document.getElementById('modal-titulo-header').innerText = '✏️ Editar Matéria';
       document.getElementById('btn-salvar-form').innerText = 'Salvar Alterações';
