@@ -27,7 +27,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-gray); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* Top Navigation Header */
+    /* Header */
     .header-bar { background-color: var(--in-blue); color: white; border-bottom: 4px solid var(--in-green); padding: 16px 24px; }
     .header-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     
@@ -39,10 +39,10 @@
     .btn-nova-publicacao { background-color: var(--in-green); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
     .btn-nova-publicacao:hover { background-color: var(--in-green-hover); }
 
-    /* Container Principal */
+    /* Wrapper Principal */
     .main-wrapper { max-width: 1200px; width: 100%; margin: 0 auto; padding: 24px 16px; flex: 1; }
 
-    /* Busca Central */
+    /* Busca */
     .search-section { margin-bottom: 24px; }
     .search-box { display: flex; gap: 8px; background: white; padding: 6px; border-radius: 8px; border: 2px solid var(--in-blue); box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
     .search-input { flex: 1; padding: 12px 16px; border: none; outline: none; font-size: 0.95rem; }
@@ -63,12 +63,13 @@
     .eixo-btn.soc { background-color: var(--eixo-soc); }
     .eixo-btn.amb { background-color: var(--eixo-amb); }
 
-    /* Grid do DOU - Notícias em Destaque */
-    .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    /* Grid do DOU */
+    .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
     @media (max-width: 900px) { .feed-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px) { .feed-grid { grid-template-columns: 1fr; } }
 
-    .news-card { position: relative; height: 340px; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; }
+    /* Card Fechado */
+    .news-card { position: relative; height: 340px; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; cursor: pointer; }
     .news-card:hover { transform: translateY(-4px); }
 
     .news-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
@@ -80,18 +81,47 @@
     .news-desc { font-size: 0.82rem; opacity: 0.9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 12px; }
 
     .news-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; margin-top: 8px; }
-    .news-link-dou { color: #60A5FA; font-size: 0.78rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
-    .news-link-dou:hover { text-decoration: underline; }
+    .news-click-prompt { font-size: 0.75rem; font-weight: 700; color: #60A5FA; display: flex; align-items: center; gap: 4px; }
 
-    .admin-btns { display: flex; gap: 6px; }
-    .btn-admin { border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; cursor: pointer; opacity: 0.9; }
-    .btn-admin:hover { opacity: 1; }
+    /* Card Expandido (Quando Clicado) */
+    .news-card.expanded {
+      grid-column: 1 / -1;
+      height: auto;
+      background: white;
+      color: var(--text-dark);
+      cursor: default;
+      transform: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      border: 2px solid var(--in-blue);
+      padding: 24px;
+      display: block;
+    }
+    .news-card.expanded .news-bg,
+    .news-card.expanded .news-overlay,
+    .news-card.expanded .news-content { display: none; }
+
+    .expanded-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px; gap: 16px; }
+    .expanded-title { font-size: 1.4rem; font-weight: 800; color: var(--in-blue); line-height: 1.3; }
+    .btn-close-expanded { background: #E2E8F0; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; color: var(--text-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .btn-close-expanded:hover { background: #CBD5E1; }
+
+    .expanded-body { display: flex; flex-direction: column; gap: 16px; }
+    .expanded-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; }
+    .expanded-resumo { background: #EFF6FF; border-left: 4px solid #3B82F6; padding: 14px 18px; border-radius: 0 8px 8px 0; font-size: 0.95rem; color: #1E40AF; font-weight: 600; line-height: 1.4; }
+    .expanded-texto { font-size: 1rem; line-height: 1.6; color: var(--text-dark); white-space: pre-wrap; margin-top: 8px; }
+    
+    .expanded-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; flex-wrap: wrap; gap: 12px; }
+    .btn-link-dou { background: var(--in-blue); color: white; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-link-dou:hover { opacity: 0.9; }
+
+    .admin-btns { display: flex; gap: 8px; }
+    .btn-admin { border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
     .btn-admin.edit { background: #FBBF24; color: #78350F; }
     .btn-admin.delete { background: #F87171; color: #7F1D1D; }
 
-    /* Modal de Publicação */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 43, 73, 0.7); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px; }
-    .modal-content { background: white; width: 100%; max-width: 550px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+    /* Modal Formulário de Publicação */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 43, 73, 0.75); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px; }
+    .modal-content { background: white; width: 100%; max-width: 600px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
     .modal-header h3 { font-size: 1.1rem; color: var(--in-blue); font-weight: 800; }
     .btn-close-modal { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); }
@@ -117,7 +147,7 @@
           <span class="brand-subtitle">Diário Oficial em Linguagem Simples</span>
         </div>
       </div>
-      <button class="btn-nova-publicacao" onclick="abrirModal()">
+      <button class="btn-nova-publicacao" onclick="abrirModalForm()">
         ➕ Publicar Nova Matéria
       </button>
     </div>
@@ -133,7 +163,7 @@
       </div>
     </section>
 
-    <!-- 4 EIXOS TEMÁTICOS (Botões Coloridos) -->
+    <!-- Botões dos Eixos -->
     <div class="eixos-header">Filtrar por Eixo:</div>
     <section class="eixos-grid">
       <button class="eixo-btn todos active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">
@@ -153,7 +183,7 @@
       </button>
     </section>
 
-    <!-- Grid de Notícias estilo Imprensa Nacional -->
+    <!-- Feed de Noticias -->
     <main id="feed-materias" class="feed-grid">
       <p style="text-align:center; color: var(--text-muted); padding: 20px; grid-column: 1/-1;">Carregando matérias...</p>
     </main>
@@ -165,7 +195,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 id="modal-titulo-header">📝 Publicar Matéria em Linguagem Simples</h3>
-        <button class="btn-close-modal" onclick="fecharModal()">&times;</button>
+        <button class="btn-close-modal" onclick="fecharModalForm()">&times;</button>
       </div>
       <form id="form-materia">
         <input type="hidden" id="materia-id">
@@ -226,7 +256,7 @@
         link_dou: "https://www.in.gov.br/web/dou/-/portaria-conjunta-n-42",
         imagem_url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600&q=80",
         resumo: "Facilita a solicitação e o acompanhamento do BPC para idosos e PCDs.",
-        conteudo: "O Governo Federal simplificou a comprovação de renda e a perícia para o BPC. A atualização pode ser feita pelo aplicativo ou no CRAS."
+        conteudo: "O Governo Federal simplificou a comprovação de renda e a perícia para o Benefício de Prestação Continuada (BPC).\n\nA partir de agora, as atualizações cadastrais podem ser feitas pelo aplicativo 'Meu INSS' ou presencialmente no CRAS da sua cidade, sem necessidade de deslocamento a agências bancárias."
       },
       {
         titulo: "Decreto nº 11.890 - Recompensa por Economia e Preservação Ambiental",
@@ -234,7 +264,7 @@
         link_dou: "https://www.in.gov.br/web/dou/-/decreto-n-11.890",
         imagem_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80",
         resumo: "Incentivos financeiros para quem economizar recursos naturais e preservar áreas verdes.",
-        conteudo: "Incentivo financeiro para famílias e pequenos agricultores que reduzirem consumo de água e energia elétrica ou mantiverem vegetação preservada."
+        conteudo: "Incentivo financeiro e descontos em tarifas públicos direcionados a famílias e pequenos agricultores que reduzirem o consumo de água e energia elétrica ou mantiverem a vegetação nativa preservada em suas propriedades."
       },
       {
         titulo: "Instrução Normativa nº 15 - Diretrizes de Linguagem Simples",
@@ -242,20 +272,21 @@
         link_dou: "https://www.in.gov.br/web/dou/-/instrucao-normativa-n-15",
         imagem_url: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80",
         resumo: "Obrigatório o uso de texto claro e direto em publicações públicas.",
-        conteudo: "Todos os documentos publicados do governo devem obrigatoriamente trazer um resumo simples para eliminar o juridiquês."
+        conteudo: "Todos os documentos publicados do governo no Diário Oficial devem obrigatoriamente trazer um resumo simples para eliminar termos técnicos e o juridiquês, aproximando a informação pública da população."
       },
       {
         titulo: "Medida Provisória nº 1.250 - Programa de Crédito ao Pequeno Negócio",
         categoria: "Econômico",
         link_dou: "https://www.in.gov.br/web/dou/-/medida-provisoria-n-1.250",
         imagem_url: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=600&q=80",
-        resumo: "Juros baixos e desconto na energia para microempreendedores e MEIs.",
-        conteudo: "Linha especial de financiamento com juros reduzidos para MEIs e comerciantes de pequeno porte."
+        resumo: "Juros baixos e facilidades para microempreendedores e MEIs.",
+        conteudo: "Linha especial de financiamento com juros reduzidos para MEIs e comerciantes de pequeno porte para capital de giro e investimento em infraestrutura."
       }
     ];
 
     let todasMaterias = [];
     let eixoSelecionado = 'Todas';
+    let materiaAbertaId = null;
 
     async function carregarMaterias() {
       const container = document.getElementById('feed-materias');
@@ -307,12 +338,45 @@
 
       container.innerHTML = filtradas.map(m => {
         const bgImg = m.imagem_url || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80';
-        const linkDouHtml = m.link_dou 
-          ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="news-link-dou">🔗 Ato Oficial</a>`
-          : '<span></span>';
+        const isExpanded = (materiaAbertaId === m.id);
 
+        if (isExpanded) {
+          /* Renderização Expandida */
+          const linkDouBtn = m.link_dou 
+            ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="btn-link-dou">🔗 Ver Ato Oficial no DOU</a>` 
+            : '';
+
+          const imgHtml = m.imagem_url ? `<img src="${escaparHtml(m.imagem_url)}" class="expanded-img" alt="Capa">` : '';
+          const resumoHtml = m.resumo ? `<div class="expanded-resumo">${escaparHtml(m.resumo)}</div>` : '';
+
+          return `
+            <article class="news-card expanded" id="card-${m.id}">
+              <div class="expanded-header">
+                <div>
+                  <span class="news-tag" style="color: var(--in-blue); font-weight:800; font-size:0.8rem;">${escaparHtml(m.categoria || 'Geral')}</span>
+                  <h2 class="expanded-title">${escaparHtml(m.titulo)}</h2>
+                </div>
+                <button class="btn-close-expanded" title="Fechar matéria" onclick="fecharCard()">&times;</button>
+              </div>
+              <div class="expanded-body">
+                ${imgHtml}
+                ${resumoHtml}
+                <div class="expanded-texto">${escaparHtml(m.conteudo)}</div>
+              </div>
+              <div class="expanded-actions">
+                ${linkDouBtn}
+                <div class="admin-btns">
+                  <button class="btn-admin edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
+                  <button class="btn-admin delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
+                </div>
+              </div>
+            </article>
+          `;
+        }
+
+        /* Renderização Card Padrão */
         return `
-          <article class="news-card">
+          <article class="news-card" onclick="expandirCard(${m.id})">
             <div class="news-bg" style="background-image: url('${escaparHtml(bgImg)}');"></div>
             <div class="news-overlay"></div>
             <div class="news-content">
@@ -321,11 +385,7 @@
               <p class="news-desc">${escaparHtml(m.resumo || m.conteudo)}</p>
               
               <div class="news-actions">
-                ${linkDouHtml}
-                <div class="admin-btns">
-                  <button class="btn-admin edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
-                  <button class="btn-admin delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
-                </div>
+                <span class="news-click-prompt">📖 Clique para ler o texto completo</span>
               </div>
             </div>
           </article>
@@ -333,8 +393,24 @@
       }).join('');
     }
 
+    function expandirCard(id) {
+      materiaAbertaId = id;
+      renderizarFeed();
+      // Rola suavemente até o card expandido
+      setTimeout(() => {
+        const elem = document.getElementById(`card-${id}`);
+        if (elem) elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
+
+    function fecharCard() {
+      materiaAbertaId = null;
+      renderizarFeed();
+    }
+
     function filtrarEixo(eixo) {
       eixoSelecionado = eixo;
+      materiaAbertaId = null;
       document.querySelectorAll('.eixo-btn').forEach(c => c.classList.remove('active'));
       
       if (eixo === 'Institucional') document.getElementById('card-eixo-institucional')?.classList.add('active');
@@ -348,12 +424,12 @@
 
     function filtrarLocal() { renderizarFeed(); }
 
-    function abrirModal() {
+    function abrirModalForm() {
       limparFormulario();
       document.getElementById('modal-form').style.display = 'flex';
     }
 
-    function fecharModal() {
+    function fecharModalForm() {
       document.getElementById('modal-form').style.display = 'none';
       limparFormulario();
     }
@@ -373,11 +449,11 @@
       if (id) {
         const { error } = await _supabase.from('materias').update(payload).eq('id', id);
         if (error) alert('Erro ao atualizar: ' + error.message);
-        else { fecharModal(); carregarMaterias(); }
+        else { fecharModalForm(); carregarMaterias(); }
       } else {
         const { error } = await _supabase.from('materias').insert([payload]);
         if (error) alert('Erro ao cadastrar: ' + error.message);
-        else { fecharModal(); carregarMaterias(); }
+        else { fecharModalForm(); carregarMaterias(); }
       }
     });
 
@@ -407,7 +483,10 @@
       if (!confirm('Tem certeza que deseja excluir esta matéria?')) return;
       const { error } = await _supabase.from('materias').delete().eq('id', id);
       if (error) alert('Erro ao excluir: ' + error.message);
-      else carregarMaterias();
+      else {
+        materiaAbertaId = null;
+        carregarMaterias();
+      }
     }
 
     function escaparHtml(t) {
