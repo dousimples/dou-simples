@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DOU Simples - Diário Oficial em Linguagem Simples</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,15 +14,14 @@
       --in-green: #006837;
       --in-green-hover: #004d28;
       --bg-gray: #F4F6F9;
-      --card-bg: #FFFFFF;
       --text-dark: #1C2430;
       --text-muted: #52606D;
       --border-color: #CBD5E1;
       
-      --eixo-institucional: #002B49;
-      --eixo-economico: #B45309;
-      --eixo-social: #006837;
-      --eixo-ambiental: #15803D;
+      --eixo-inst: #003366;
+      --eixo-econ: #D97706;
+      --eixo-soc: #059669;
+      --eixo-amb: #16A34A;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -31,7 +29,7 @@
 
     /* Top Navigation Header */
     .header-bar { background-color: var(--in-blue); color: white; border-bottom: 4px solid var(--in-green); padding: 16px 24px; }
-    .header-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .header-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     
     .brand-logo { display: flex; align-items: center; gap: 12px; }
     .brand-logo-icon { background: var(--in-green); color: white; font-weight: 800; font-size: 1.1rem; padding: 6px 12px; border-radius: 6px; letter-spacing: 1px; }
@@ -42,7 +40,7 @@
     .btn-nova-publicacao:hover { background-color: var(--in-green-hover); }
 
     /* Container Principal */
-    .main-wrapper { max-width: 1100px; width: 100%; margin: 0 auto; padding: 24px 16px; flex: 1; }
+    .main-wrapper { max-width: 1200px; width: 100%; margin: 0 auto; padding: 24px 16px; flex: 1; }
 
     /* Busca Central */
     .search-section { margin-bottom: 24px; }
@@ -50,55 +48,50 @@
     .search-input { flex: 1; padding: 12px 16px; border: none; outline: none; font-size: 0.95rem; }
     .btn-search { background-color: var(--in-blue); color: white; border: none; padding: 0 24px; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
 
-    /* Grid dos 4 Eixos (Apenas ícone e nome) */
+    /* Botões Coloridos dos Eixos */
     .eixos-header { font-size: 0.9rem; font-weight: 800; color: var(--in-blue); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
     .eixos-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 30px; }
     @media (max-width: 850px) { .eixos-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 500px) { .eixos-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    .eixo-card { background: white; border: 2px solid var(--border-color); border-radius: 8px; padding: 14px 10px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 0.9rem; color: var(--in-blue); }
-    .eixo-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
-    .eixo-card.active { border-color: var(--in-blue); background: #E2E8F0; }
+    .eixo-btn { border: none; border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 0.9rem; color: white; opacity: 0.85; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .eixo-btn:hover, .eixo-btn.active { opacity: 1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); outline: 3px solid #1C2430; }
     
-    .eixo-card.inst { border-bottom: 4px solid var(--eixo-institucional); }
-    .eixo-card.econ { border-bottom: 4px solid var(--eixo-economico); }
-    .eixo-card.soc { border-bottom: 4px solid var(--eixo-social); }
-    .eixo-card.amb { border-bottom: 4px solid var(--eixo-ambiental); }
+    .eixo-btn.todos { background-color: #334155; }
+    .eixo-btn.inst { background-color: var(--eixo-inst); }
+    .eixo-btn.econ { background-color: var(--eixo-econ); }
+    .eixo-btn.soc { background-color: var(--eixo-soc); }
+    .eixo-btn.amb { background-color: var(--eixo-amb); }
 
-    /* Feed de Matérias */
-    .feed-container { display: flex; flex-direction: column; gap: 16px; }
+    /* Grid do DOU - Notícias em Destaque */
+    .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .feed-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .feed-grid { grid-template-columns: 1fr; } }
 
-    .materia-card { background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .materia-card.inst { border-left: 6px solid var(--eixo-institucional); }
-    .materia-card.econ { border-left: 6px solid var(--eixo-economico); }
-    .materia-card.soc { border-left: 6px solid var(--eixo-social); }
-    .materia-card.amb { border-left: 6px solid var(--eixo-ambiental); }
+    .news-card { position: relative; height: 340px; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.2s; }
+    .news-card:hover { transform: translateY(-4px); }
 
-    .materia-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
-    .materia-title { font-size: 1.15rem; font-weight: 700; color: var(--in-blue); line-height: 1.3; }
+    .news-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
+    .news-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.1) 100%); z-index: 2; }
     
-    .badge-eixo { padding: 4px 10px; border-radius: 4px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: white; white-space: nowrap; }
-    .badge-eixo.inst { background: var(--eixo-institucional); }
-    .badge-eixo.econ { background: var(--eixo-economico); }
-    .badge-eixo.soc { background: var(--eixo-social); }
-    .badge-eixo.amb { background: var(--eixo-ambiental); }
+    .news-content { position: relative; z-index: 3; padding: 20px; color: white; }
+    .news-tag { font-size: 0.75rem; font-weight: 600; opacity: 0.9; text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+    .news-title { font-size: 1.15rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; color: #FFFFFF; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+    .news-desc { font-size: 0.82rem; opacity: 0.9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 12px; }
 
-    .materia-meta { display: flex; align-items: center; gap: 16px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap; }
-    .materia-dou-link { color: #1351B4; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
-    .materia-dou-link:hover { text-decoration: underline; }
+    .news-actions { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; margin-top: 8px; }
+    .news-link-dou { color: #60A5FA; font-size: 0.78rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .news-link-dou:hover { text-decoration: underline; }
 
-    .materia-resumo { font-size: 0.92rem; font-weight: 600; color: #334155; background: #F8FAFC; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; border-left: 3px solid #CBD5E1; }
-    .materia-body { font-size: 0.9rem; line-height: 1.6; color: #475569; white-space: pre-line; }
-
-    .card-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #F1F5F9; justify-content: flex-end; }
-    .btn-act { padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; cursor: pointer; border: 1px solid var(--border-color); background: white; }
-    .btn-act.pdf { color: var(--in-blue); border-color: var(--in-blue); }
-    .btn-act.edit { color: #B45309; border-color: #FCD34D; background: #FEF3C7; }
-    .btn-act.delete { color: #DC2626; border-color: #FCA5A5; background: #FEF2F2; }
+    .admin-btns { display: flex; gap: 6px; }
+    .btn-admin { border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; cursor: pointer; opacity: 0.9; }
+    .btn-admin:hover { opacity: 1; }
+    .btn-admin.edit { background: #FBBF24; color: #78350F; }
+    .btn-admin.delete { background: #F87171; color: #7F1D1D; }
 
     /* Modal de Publicação */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 43, 73, 0.6); backdrop-filter: blur(2px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px; }
-    .modal-content { background: white; width: 100%; max-width: 550px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 43, 73, 0.7); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px; }
+    .modal-content { background: white; width: 100%; max-width: 550px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
     .modal-header h3 { font-size: 1.1rem; color: var(--in-blue); font-weight: 800; }
     .btn-close-modal { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted); }
@@ -114,7 +107,7 @@
 </head>
 <body>
 
-  <!-- Top Header Bar -->
+  <!-- Header -->
   <header class="header-bar">
     <div class="header-container">
       <div class="brand-logo">
@@ -132,7 +125,7 @@
 
   <div class="main-wrapper">
 
-    <!-- Busca Central -->
+    <!-- Busca -->
     <section class="search-section">
       <div class="search-box">
         <input type="text" id="input-busca" class="search-input" placeholder="Pesquisar por assunto, título ou palavra-chave..." onkeyup="filtrarLocal()">
@@ -140,29 +133,29 @@
       </div>
     </section>
 
-    <!-- 4 EIXOS TEMÁTICOS (Apenas Ícone e Nome) -->
+    <!-- 4 EIXOS TEMÁTICOS (Botões Coloridos) -->
     <div class="eixos-header">Filtrar por Eixo:</div>
     <section class="eixos-grid">
-      <div class="eixo-card active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">
+      <button class="eixo-btn todos active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">
         🌐 Todos
-      </div>
-      <div class="eixo-card inst" id="card-eixo-institucional" onclick="filtrarEixo('Institucional')">
+      </button>
+      <button class="eixo-btn inst" id="card-eixo-institucional" onclick="filtrarEixo('Institucional')">
         🏛️ Institucional
-      </div>
-      <div class="eixo-card econ" id="card-eixo-economico" onclick="filtrarEixo('Econômico')">
+      </button>
+      <button class="eixo-btn econ" id="card-eixo-economico" onclick="filtrarEixo('Econômico')">
         💰 Econômico
-      </div>
-      <div class="eixo-card soc" id="card-eixo-social" onclick="filtrarEixo('Social')">
+      </button>
+      <button class="eixo-btn soc" id="card-eixo-social" onclick="filtrarEixo('Social')">
         👥 Social
-      </div>
-      <div class="eixo-card amb" id="card-eixo-ambiental" onclick="filtrarEixo('Ambiental')">
+      </button>
+      <button class="eixo-btn amb" id="card-eixo-ambiental" onclick="filtrarEixo('Ambiental')">
         🌱 Ambiental
-      </div>
+      </button>
     </section>
 
-    <!-- Feed de Matérias -->
-    <main id="feed-materias" class="feed-container">
-      <p style="text-align:center; color: var(--text-muted); padding: 20px;">Carregando matérias...</p>
+    <!-- Grid de Notícias estilo Imprensa Nacional -->
+    <main id="feed-materias" class="feed-grid">
+      <p style="text-align:center; color: var(--text-muted); padding: 20px; grid-column: 1/-1;">Carregando matérias...</p>
     </main>
 
   </div>
@@ -193,18 +186,23 @@
         </div>
 
         <div class="form-group">
+          <label for="imagem_url">URL da Imagem de Capa</label>
+          <input type="url" id="imagem_url" placeholder="https://images.unsplash.com/...">
+        </div>
+
+        <div class="form-group">
           <label for="link_dou">Link do Ato Oficial no DOU (URL)</label>
           <input type="url" id="link_dou" placeholder="https://www.in.gov.br/web/dou/-/...">
         </div>
 
         <div class="form-group">
           <label for="resumo">Resumo da Medida (Ementa Simples)</label>
-          <textarea id="resumo" rows="2" placeholder="Síntese curta e direta do que muda para o cidadão..."></textarea>
+          <textarea id="resumo" rows="2" placeholder="Síntese curta do que muda para o cidadão..."></textarea>
         </div>
 
         <div class="form-group">
-          <label for="conteudo">Texto da Matéria em Linguagem Simples *</label>
-          <textarea id="conteudo" rows="5" placeholder="Explicação clara do conteúdo da medida..." required></textarea>
+          <label for="conteudo">Texto Principal em Linguagem Simples *</label>
+          <textarea id="conteudo" rows="4" placeholder="Explicação clara do conteúdo da medida..." required></textarea>
         </div>
 
         <button type="submit" id="btn-salvar-form" class="btn-submit-form">Publicar Agora</button>
@@ -221,35 +219,38 @@
     const SUPABASE_KEY = 'sb_publishable_EmZcTTfqPGMBG7_rjzh09g_18qMQ-AB';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // As 4 matérias base com os links oficiais do DOU
     const MATERIAS_INICIAIS = [
       {
         titulo: "Portaria Conjunta nº 42 - Regras Simplificadas para Solicitação do BPC",
         categoria: "Social",
         link_dou: "https://www.in.gov.br/web/dou/-/portaria-conjunta-n-42",
-        resumo: "Facilita a solicitação e o acompanhamento do Benefício de Prestação Continuada (BPC) para idosos e pessoas com deficiência.",
-        conteudo: "O Governo Federal simplificou a comprovação de renda e a perícia para quem solicita o BPC. A partir de agora, a atualização dos dados pode ser feita diretamente pelo aplicativo ou em postos do CRAS sem burocracia, garantindo que o benefício chegue mais rápido a quem precisa."
+        imagem_url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=600&q=80",
+        resumo: "Facilita a solicitação e o acompanhamento do BPC para idosos e PCDs.",
+        conteudo: "O Governo Federal simplificou a comprovação de renda e a perícia para o BPC. A atualização pode ser feita pelo aplicativo ou no CRAS."
       },
       {
-        titulo: "Decreto nº 11.890 - Programa de Recompensa Financeira por Economia e Preservação",
+        titulo: "Decreto nº 11.890 - Recompensa por Economia e Preservação Ambiental",
         categoria: "Ambiental",
         link_dou: "https://www.in.gov.br/web/dou/-/decreto-n-11.890",
-        resumo: "O Governo pagará incentivos em dinheiro para quem economizar recursos naturais e mantiver áreas verdes.",
-        conteudo: "Fica criado o incentivo financeiro direto para famílias, pequenos agricultores e comunidades que reduzirem o consumo de água e energia elétrica, bem como para quem mantiver vegetação nativa preservada em suas propriedades."
+        imagem_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=80",
+        resumo: "Incentivos financeiros para quem economizar recursos naturais e preservar áreas verdes.",
+        conteudo: "Incentivo financeiro para famílias e pequenos agricultores que reduzirem consumo de água e energia elétrica ou mantiverem vegetação preservada."
       },
       {
-        titulo: "Instrução Normativa nº 15 - Diretrizes de Linguagem Simples nas Publicações Oficiais",
+        titulo: "Instrução Normativa nº 15 - Diretrizes de Linguagem Simples",
         categoria: "Institucional",
         link_dou: "https://www.in.gov.br/web/dou/-/instrucao-normativa-n-15",
-        resumo: "Torna obrigatório o uso de texto claro e direto em todos os atos e portarias públicas.",
-        conteudo: "Todos os documentos publicados do governo devem obrigatoriamente trazer um resumo em linguagem simples. O objetivo é eliminar o 'juridiquês' e garantir que qualquer pessoa consiga entender seus direitos e deveres sem precisar de ajuda especializada."
+        imagem_url: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80",
+        resumo: "Obrigatório o uso de texto claro e direto em publicações públicas.",
+        conteudo: "Todos os documentos publicados do governo devem obrigatoriamente trazer um resumo simples para eliminar o juridiquês."
       },
       {
-        titulo: "Medida Provisória nº 1.250 - Programa de Apoio Financeiro e Crédito ao Pequeno Negócio",
+        titulo: "Medida Provisória nº 1.250 - Programa de Crédito ao Pequeno Negócio",
         categoria: "Econômico",
         link_dou: "https://www.in.gov.br/web/dou/-/medida-provisoria-n-1.250",
-        resumo: "Garante juros baixos e desconto na conta de luz para microempreendedores e feirantes.",
-        conteudo: "Linha especial de financiamento com taxa de juros reduzida para microempreendedores individuais (MEIs) e pequenos comerciantes. O programa também garante desconto na tarifa de energia elétrica para negócios de pequeno porte que investirem em eficiência energética."
+        imagem_url: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=600&q=80",
+        resumo: "Juros baixos e desconto na energia para microempreendedores e MEIs.",
+        conteudo: "Linha especial de financiamento com juros reduzidos para MEIs e comerciantes de pequeno porte."
       }
     ];
 
@@ -258,7 +259,7 @@
 
     async function carregarMaterias() {
       const container = document.getElementById('feed-materias');
-      container.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 20px;">Carregando matérias...</p>';
+      container.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 20px; grid-column: 1/-1;">Carregando matérias...</p>';
 
       const { data, error } = await _supabase
         .from('materias')
@@ -297,7 +298,7 @@
 
       if (filtradas.length === 0) {
         container.innerHTML = `
-          <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-muted);">
+          <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-muted); grid-column: 1/-1;">
             Nenhuma matéria encontrada neste eixo.
           </div>
         `;
@@ -305,35 +306,27 @@
       }
 
       container.innerHTML = filtradas.map(m => {
-        let classeEixo = 'inst';
-        if (m.categoria === 'Econômico') classeEixo = 'econ';
-        else if (m.categoria === 'Social') classeEixo = 'soc';
-        else if (m.categoria === 'Ambiental') classeEixo = 'amb';
-
-        const dataFormatada = m.created_at ? new Date(m.created_at).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
+        const bgImg = m.imagem_url || 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80';
         const linkDouHtml = m.link_dou 
-          ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="materia-dou-link">🔗 Ver Ato Oficial no DOU</a>`
-          : '';
+          ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="news-link-dou">🔗 Ato Oficial</a>`
+          : '<span></span>';
 
         return `
-          <article class="materia-card ${classeEixo}" id="card-${m.id}">
-            <div class="materia-header">
-              <h2 class="materia-title">${escaparHtml(m.titulo)}</h2>
-              <span class="badge-eixo ${classeEixo}">${escaparHtml(m.categoria || 'Institucional')}</span>
-            </div>
-            
-            <div class="materia-meta">
-              <span>📅 Publicado em: ${dataFormatada}</span>
-              ${linkDouHtml}
-            </div>
-
-            ${m.resumo ? `<div class="materia-resumo">💡 <strong>Em resumo:</strong> ${escaparHtml(m.resumo)}</div>` : ''}
-            <div class="materia-body">${escaparHtml(m.conteudo)}</div>
-            
-            <div class="card-actions">
-              <button class="btn-act pdf" onclick="gerarPDF(${m.id})">📄 Baixar PDF</button>
-              <button class="btn-act edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
-              <button class="btn-act delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
+          <article class="news-card">
+            <div class="news-bg" style="background-image: url('${escaparHtml(bgImg)}');"></div>
+            <div class="news-overlay"></div>
+            <div class="news-content">
+              <span class="news-tag">${escaparHtml(m.categoria || 'Atos Oficiais')}</span>
+              <h2 class="news-title">${escaparHtml(m.titulo)}</h2>
+              <p class="news-desc">${escaparHtml(m.resumo || m.conteudo)}</p>
+              
+              <div class="news-actions">
+                ${linkDouHtml}
+                <div class="admin-btns">
+                  <button class="btn-admin edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
+                  <button class="btn-admin delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
+                </div>
+              </div>
             </div>
           </article>
         `;
@@ -342,7 +335,7 @@
 
     function filtrarEixo(eixo) {
       eixoSelecionado = eixo;
-      document.querySelectorAll('.eixo-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.eixo-btn').forEach(c => c.classList.remove('active'));
       
       if (eixo === 'Institucional') document.getElementById('card-eixo-institucional')?.classList.add('active');
       else if (eixo === 'Econômico') document.getElementById('card-eixo-economico')?.classList.add('active');
@@ -355,7 +348,6 @@
 
     function filtrarLocal() { renderizarFeed(); }
 
-    /* Modal */
     function abrirModal() {
       limparFormulario();
       document.getElementById('modal-form').style.display = 'flex';
@@ -371,16 +363,19 @@
       const id = document.getElementById('materia-id').value;
       const titulo = document.getElementById('titulo').value.trim();
       const categoria = document.getElementById('categoria').value;
+      const imagem_url = document.getElementById('imagem_url').value.trim();
       const link_dou = document.getElementById('link_dou').value.trim();
       const resumo = document.getElementById('resumo').value.trim();
       const conteudo = document.getElementById('conteudo').value.trim();
 
+      const payload = { titulo, categoria, imagem_url, link_dou, resumo, conteudo };
+
       if (id) {
-        const { error } = await _supabase.from('materias').update({ titulo, categoria, link_dou, resumo, conteudo }).eq('id', id);
+        const { error } = await _supabase.from('materias').update(payload).eq('id', id);
         if (error) alert('Erro ao atualizar: ' + error.message);
         else { fecharModal(); carregarMaterias(); }
       } else {
-        const { error } = await _supabase.from('materias').insert([{ titulo, categoria, link_dou, resumo, conteudo }]);
+        const { error } = await _supabase.from('materias').insert([payload]);
         if (error) alert('Erro ao cadastrar: ' + error.message);
         else { fecharModal(); carregarMaterias(); }
       }
@@ -392,6 +387,7 @@
       document.getElementById('materia-id').value = m.id;
       document.getElementById('titulo').value = m.titulo || '';
       document.getElementById('categoria').value = m.categoria || 'Institucional';
+      document.getElementById('imagem_url').value = m.imagem_url || '';
       document.getElementById('link_dou').value = m.link_dou || '';
       document.getElementById('resumo').value = m.resumo || '';
       document.getElementById('conteudo').value = m.conteudo || '';
@@ -412,22 +408,6 @@
       const { error } = await _supabase.from('materias').delete().eq('id', id);
       if (error) alert('Erro ao excluir: ' + error.message);
       else carregarMaterias();
-    }
-
-    function gerarPDF(id) {
-      const card = document.getElementById(`card-${id}`);
-      if (!card) return;
-      const clone = card.cloneNode(true);
-      const actions = clone.querySelector('.card-actions');
-      if (actions) actions.remove();
-
-      html2pdf().set({
-        margin: 15,
-        filename: `materia-dou-simples-${id}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      }).from(clone).save();
     }
 
     function escaparHtml(t) {
