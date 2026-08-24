@@ -20,7 +20,6 @@
       --text-muted: #52606D;
       --border-color: #CBD5E1;
       
-      /* Cores dos 4 Eixos */
       --eixo-institucional: #002B49;
       --eixo-economico: #B45309;
       --eixo-social: #006837;
@@ -51,23 +50,20 @@
     .search-input { flex: 1; padding: 12px 16px; border: none; outline: none; font-size: 0.95rem; }
     .btn-search { background-color: var(--in-blue); color: white; border: none; padding: 0 24px; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
 
-    /* Grid dos 4 Eixos */
-    .eixos-header { font-size: 1rem; font-weight: 800; color: var(--in-blue); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
-    .eixos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 30px; }
-    @media (max-width: 850px) { .eixos-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .eixos-grid { grid-template-columns: 1fr; } }
+    /* Grid dos 4 Eixos (Apenas ícone e nome) */
+    .eixos-header { font-size: 0.9rem; font-weight: 800; color: var(--in-blue); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
+    .eixos-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 30px; }
+    @media (max-width: 850px) { .eixos-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 500px) { .eixos-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    .eixo-card { background: white; border: 2px solid var(--border-color); border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
-    .eixo-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-    .eixo-card.active { border-color: var(--in-blue); background: #F0F7FF; }
+    .eixo-card { background: white; border: 2px solid var(--border-color); border-radius: 8px; padding: 14px 10px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 0.9rem; color: var(--in-blue); }
+    .eixo-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+    .eixo-card.active { border-color: var(--in-blue); background: #E2E8F0; }
     
-    .eixo-card.inst { border-top: 5px solid var(--eixo-institucional); }
-    .eixo-card.econ { border-top: 5px solid var(--eixo-economico); }
-    .eixo-card.soc { border-top: 5px solid var(--eixo-social); }
-    .eixo-card.amb { border-top: 5px solid var(--eixo-ambiental); }
-
-    .eixo-name { font-size: 0.95rem; font-weight: 800; color: var(--in-blue); text-transform: uppercase; margin-bottom: 4px; }
-    .eixo-desc { font-size: 0.78rem; color: var(--text-muted); }
+    .eixo-card.inst { border-bottom: 4px solid var(--eixo-institucional); }
+    .eixo-card.econ { border-bottom: 4px solid var(--eixo-economico); }
+    .eixo-card.soc { border-bottom: 4px solid var(--eixo-social); }
+    .eixo-card.amb { border-bottom: 4px solid var(--eixo-ambiental); }
 
     /* Feed de Matérias */
     .feed-container { display: flex; flex-direction: column; gap: 16px; }
@@ -87,7 +83,10 @@
     .badge-eixo.soc { background: var(--eixo-social); }
     .badge-eixo.amb { background: var(--eixo-ambiental); }
 
-    .materia-date { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
+    .materia-meta { display: flex; align-items: center; gap: 16px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; flex-wrap: wrap; }
+    .materia-dou-link { color: #1351B4; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+    .materia-dou-link:hover { text-decoration: underline; }
+
     .materia-resumo { font-size: 0.92rem; font-weight: 600; color: #334155; background: #F8FAFC; padding: 10px 12px; border-radius: 6px; margin-bottom: 12px; border-left: 3px solid #CBD5E1; }
     .materia-body { font-size: 0.9rem; line-height: 1.6; color: #475569; white-space: pre-line; }
 
@@ -141,28 +140,23 @@
       </div>
     </section>
 
-    <!-- 4 EIXOS TEMÁTICOS -->
-    <div class="eixos-header">Selecione o Eixo para filtrar:</div>
+    <!-- 4 EIXOS TEMÁTICOS (Apenas Ícone e Nome) -->
+    <div class="eixos-header">Filtrar por Eixo:</div>
     <section class="eixos-grid">
-      <div class="eixo-card inst active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">
-        <div class="eixo-name">Todos os Eixos</div>
-        <div class="eixo-desc">Exibir todas as matérias</div>
+      <div class="eixo-card active" id="card-eixo-todos" onclick="filtrarEixo('Todas')">
+        🌐 Todos
       </div>
       <div class="eixo-card inst" id="card-eixo-institucional" onclick="filtrarEixo('Institucional')">
-        <div class="eixo-name">Institucional</div>
-        <div class="eixo-desc">Normas, gestão e linguagem simples</div>
+        🏛️ Institucional
       </div>
       <div class="eixo-card econ" id="card-eixo-economico" onclick="filtrarEixo('Econômico')">
-        <div class="eixo-name">Econômico</div>
-        <div class="eixo-desc">Finanças, impostos e incentivos</div>
+        💰 Econômico
       </div>
       <div class="eixo-card soc" id="card-eixo-social" onclick="filtrarEixo('Social')">
-        <div class="eixo-name">Social</div>
-        <div class="eixo-desc">BPC, cidadania e direitos</div>
+        👥 Social
       </div>
       <div class="eixo-card amb" id="card-eixo-ambiental" onclick="filtrarEixo('Ambiental')">
-        <div class="eixo-name">Ambiental</div>
-        <div class="eixo-desc">Preservação e economia verde</div>
+        🌱 Ambiental
       </div>
     </section>
 
@@ -199,6 +193,11 @@
         </div>
 
         <div class="form-group">
+          <label for="link_dou">Link do Ato Oficial no DOU (URL)</label>
+          <input type="url" id="link_dou" placeholder="https://www.in.gov.br/web/dou/-/...">
+        </div>
+
+        <div class="form-group">
           <label for="resumo">Resumo da Medida (Ementa Simples)</label>
           <textarea id="resumo" rows="2" placeholder="Síntese curta e direta do que muda para o cidadão..."></textarea>
         </div>
@@ -222,29 +221,33 @@
     const SUPABASE_KEY = 'sb_publishable_EmZcTTfqPGMBG7_rjzh09g_18qMQ-AB';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // As 4 matérias base do projeto inicial
+    // As 4 matérias base com os links oficiais do DOU
     const MATERIAS_INICIAIS = [
       {
         titulo: "Portaria Conjunta nº 42 - Regras Simplificadas para Solicitação do BPC",
         categoria: "Social",
+        link_dou: "https://www.in.gov.br/web/dou/-/portaria-conjunta-n-42",
         resumo: "Facilita a solicitação e o acompanhamento do Benefício de Prestação Continuada (BPC) para idosos e pessoas com deficiência.",
         conteudo: "O Governo Federal simplificou a comprovação de renda e a perícia para quem solicita o BPC. A partir de agora, a atualização dos dados pode ser feita diretamente pelo aplicativo ou em postos do CRAS sem burocracia, garantindo que o benefício chegue mais rápido a quem precisa."
       },
       {
         titulo: "Decreto nº 11.890 - Programa de Recompensa Financeira por Economia e Preservação",
         categoria: "Ambiental",
+        link_dou: "https://www.in.gov.br/web/dou/-/decreto-n-11.890",
         resumo: "O Governo pagará incentivos em dinheiro para quem economizar recursos naturais e mantiver áreas verdes.",
         conteudo: "Fica criado o incentivo financeiro direto para famílias, pequenos agricultores e comunidades que reduzirem o consumo de água e energia elétrica, bem como para quem mantiver vegetação nativa preservada em suas propriedades."
       },
       {
         titulo: "Instrução Normativa nº 15 - Diretrizes de Linguagem Simples nas Publicações Oficiais",
         categoria: "Institucional",
+        link_dou: "https://www.in.gov.br/web/dou/-/instrucao-normativa-n-15",
         resumo: "Torna obrigatório o uso de texto claro e direto em todos os atos e portarias públicas.",
         conteudo: "Todos os documentos publicados do governo devem obrigatoriamente trazer um resumo em linguagem simples. O objetivo é eliminar o 'juridiquês' e garantir que qualquer pessoa consiga entender seus direitos e deveres sem precisar de ajuda especializada."
       },
       {
         titulo: "Medida Provisória nº 1.250 - Programa de Apoio Financeiro e Crédito ao Pequeno Negócio",
         categoria: "Econômico",
+        link_dou: "https://www.in.gov.br/web/dou/-/medida-provisoria-n-1.250",
         resumo: "Garante juros baixos e desconto na conta de luz para microempreendedores e feirantes.",
         conteudo: "Linha especial de financiamento com taxa de juros reduzida para microempreendedores individuais (MEIs) e pequenos comerciantes. O programa também garante desconto na tarifa de energia elétrica para negócios de pequeno porte que investirem em eficiência energética."
       }
@@ -263,7 +266,6 @@
         .order('created_at', { ascending: false });
 
       if (error || !data || data.length === 0) {
-        // Se a tabela estiver vazia, grava as 4 matérias originais
         await inicializarMateriasBase();
         return;
       }
@@ -296,7 +298,7 @@
       if (filtradas.length === 0) {
         container.innerHTML = `
           <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-muted);">
-            Nenhuma matéria encontrada neste eixo. Clique em "Publicar Nova Matéria" para adicionar.
+            Nenhuma matéria encontrada neste eixo.
           </div>
         `;
         return;
@@ -309,6 +311,9 @@
         else if (m.categoria === 'Ambiental') classeEixo = 'amb';
 
         const dataFormatada = m.created_at ? new Date(m.created_at).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
+        const linkDouHtml = m.link_dou 
+          ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="materia-dou-link">🔗 Ver Ato Oficial no DOU</a>`
+          : '';
 
         return `
           <article class="materia-card ${classeEixo}" id="card-${m.id}">
@@ -316,7 +321,12 @@
               <h2 class="materia-title">${escaparHtml(m.titulo)}</h2>
               <span class="badge-eixo ${classeEixo}">${escaparHtml(m.categoria || 'Institucional')}</span>
             </div>
-            <div class="materia-date">📅 Publicado em: ${dataFormatada}</div>
+            
+            <div class="materia-meta">
+              <span>📅 Publicado em: ${dataFormatada}</span>
+              ${linkDouHtml}
+            </div>
+
             ${m.resumo ? `<div class="materia-resumo">💡 <strong>Em resumo:</strong> ${escaparHtml(m.resumo)}</div>` : ''}
             <div class="materia-body">${escaparHtml(m.conteudo)}</div>
             
@@ -345,7 +355,7 @@
 
     function filtrarLocal() { renderizarFeed(); }
 
-    /* Funções do Modal */
+    /* Modal */
     function abrirModal() {
       limparFormulario();
       document.getElementById('modal-form').style.display = 'flex';
@@ -361,15 +371,16 @@
       const id = document.getElementById('materia-id').value;
       const titulo = document.getElementById('titulo').value.trim();
       const categoria = document.getElementById('categoria').value;
+      const link_dou = document.getElementById('link_dou').value.trim();
       const resumo = document.getElementById('resumo').value.trim();
       const conteudo = document.getElementById('conteudo').value.trim();
 
       if (id) {
-        const { error } = await _supabase.from('materias').update({ titulo, categoria, resumo, conteudo }).eq('id', id);
+        const { error } = await _supabase.from('materias').update({ titulo, categoria, link_dou, resumo, conteudo }).eq('id', id);
         if (error) alert('Erro ao atualizar: ' + error.message);
         else { fecharModal(); carregarMaterias(); }
       } else {
-        const { error } = await _supabase.from('materias').insert([{ titulo, categoria, resumo, conteudo }]);
+        const { error } = await _supabase.from('materias').insert([{ titulo, categoria, link_dou, resumo, conteudo }]);
         if (error) alert('Erro ao cadastrar: ' + error.message);
         else { fecharModal(); carregarMaterias(); }
       }
@@ -381,6 +392,7 @@
       document.getElementById('materia-id').value = m.id;
       document.getElementById('titulo').value = m.titulo || '';
       document.getElementById('categoria').value = m.categoria || 'Institucional';
+      document.getElementById('link_dou').value = m.link_dou || '';
       document.getElementById('resumo').value = m.resumo || '';
       document.getElementById('conteudo').value = m.conteudo || '';
       document.getElementById('modal-titulo-header').innerText = '✏️ Editar Matéria';
