@@ -3,163 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DOU Simples - Publicações & Consultas</title>
+  <title>DOU Simples - Diário Oficial Simplificado</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Biblioteca para exportar PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rawline:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #002B49;
-      --secondary: #1351B4;
-      --accent: #28a745;
-      --danger: #dc3545;
-      --warning: #ffc107;
-      --bg-light: #F4F6F9;
+      --in-blue: #002B49;
+      --in-secondary-blue: #1351B4;
+      --in-green: #006837;
+      --in-green-hover: #004d28;
+      --bg-gray: #F4F6F9;
       --card-bg: #FFFFFF;
-      --text-main: #1C2430;
-      --text-muted: #627282;
-      --border-color: #E2E8F0;
+      --text-color: #222222;
+      --border-color: #002B49;
+      --sec1-color: #006837;
+      --sec2-color: #1351B4;
+      --sec3-color: #d97706;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
-    body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg-gray); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
 
-    .header-bar { background-color: var(--primary); color: white; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .header-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .logo-area h1 { font-size: 1.6rem; font-weight: 700; color: #FFFFFF; }
-    .logo-area p { font-size: 0.85rem; color: #B0C4DE; font-weight: 300; }
-    .tag-badge { background: rgba(255, 255, 255, 0.15); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; color: #E2E8F0; border: 1px solid rgba(255,255,255,0.2); }
+    /* Top Banner */
+    .top-banner { background-color: var(--in-blue); color: white; text-align: center; padding: 24px 16px; border-bottom: 4px solid var(--in-green); }
+    .top-banner h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .top-banner p { font-size: 0.95rem; opacity: 0.9; font-weight: 300; }
 
-    .main-container { max-width: 1100px; width: 100%; margin: 24px auto; padding: 0 16px; flex: 1; }
+    .main-wrapper { max-width: 1120px; width: 100%; margin: 0 auto; padding: 20px 16px; flex: 1; }
 
-    .hero-search { background: var(--card-bg); border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); margin-bottom: 24px; }
-    .hero-search h2 { font-size: 1.25rem; color: var(--primary); margin-bottom: 4px; }
-    .search-box { display: flex; gap: 10px; margin-top: 14px; }
-    .search-box input { flex: 1; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; outline: none; }
-    .search-box button { background-color: var(--secondary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    /* Search Header */
+    .search-section { background: white; border: 2px solid #E2E8F0; border-radius: 8px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .search-box-container { display: flex; gap: 10px; margin-top: 10px; }
+    .search-input { flex: 1; padding: 12px 16px; border: 2px solid #CBD5E1; border-radius: 6px; font-size: 1rem; outline: none; }
+    .search-input:focus { border-color: var(--in-secondary-blue); }
+    .btn-search { background-color: var(--in-green); color: white; border: none; padding: 0 28px; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
+    .btn-search:hover { background-color: var(--in-green-hover); }
 
-    .content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
-    @media (max-width: 850px) { .content-grid { grid-template-columns: 1fr; } }
+    /* Section Cards (Imprensa Nacional style) */
+    .sections-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .section-card { background: white; border: 2px solid var(--in-blue); border-radius: 8px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .section-card h2 { font-size: 1.2rem; color: var(--in-blue); margin-bottom: 6px; font-weight: 700; }
+    .section-card p { font-size: 0.85rem; color: #64748B; margin-bottom: 16px; }
+    .btn-section { background-color: var(--in-green); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; }
+    .btn-section:hover { background-color: var(--in-green-hover); }
 
-    .panel { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 24px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04); position: sticky; top: 20px; }
-    .panel-title { font-size: 1.1rem; font-weight: 600; color: var(--primary); margin-bottom: 16px; border-bottom: 2px solid var(--bg-light); padding-bottom: 10px; }
-    .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; outline: none; }
-    
-    .btn-submit { width: 100%; background-color: var(--accent); color: white; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
-    .btn-submit:hover { background-color: #218838; }
-    .btn-cancel { width: 100%; background-color: #6c757d; color: white; padding: 8px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 8px; display: none; }
+    /* Main Content Layout */
+    .content-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+    @media (max-width: 850px) { .content-layout { grid-template-columns: 1fr; } }
 
-    .filter-pills { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-    .pill { padding: 6px 14px; border-radius: 20px; background-color: #E2E8F0; color: var(--text-main); font-size: 0.82rem; font-weight: 500; cursor: pointer; border: none; }
-    .pill.active { background-color: var(--primary); color: white; }
+    /* Feed & Pills */
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-btn { padding: 8px 16px; border-radius: 20px; background: #E2E8F0; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; color: #334155; }
+    .filter-btn.active { background: var(--in-blue); color: white; }
 
-    .materia-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; margin-bottom: 16px; position: relative; }
-    .materia-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
-    .materia-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
-    .materia-badge { background-color: #EBF3FE; color: var(--secondary); padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
-    .materia-meta { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; }
-    .materia-resumo { font-size: 0.9rem; color: #4A5568; margin-bottom: 12px; }
-    .materia-conteudo { font-size: 0.88rem; white-space: pre-line; border-top: 1px dashed var(--border-color); padding-top: 10px; }
+    .materia-item { background: white; border: 1px solid #CBD5E1; border-left: 6px solid var(--in-blue); border-radius: 6px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .materia-item.sec1 { border-left-color: var(--sec1-color); }
+    .materia-item.sec2 { border-left-color: var(--sec2-color); }
+    .materia-item.sec3 { border-left-color: var(--sec3-color); }
 
-    /* Barra de Ações do Card */
-    .card-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border-color); justify-content: flex-end; }
-    .btn-action { padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 6px; background: #fff; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; }
-    .btn-action:hover { background: var(--bg-light); }
-    .btn-action.pdf { color: var(--secondary); border-color: var(--secondary); }
-    .btn-action.edit { color: #856404; border-color: #ffeeba; background: #fff3cd; }
-    .btn-action.delete { color: var(--danger); border-color: #f5c6cb; background: #f8d7da; }
+    .materia-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+    .materia-title { font-size: 1.1rem; font-weight: 700; color: var(--in-blue); }
+    .materia-badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; color: white; background: var(--in-blue); }
+    .materia-badge.sec1 { background: var(--sec1-color); }
+    .materia-badge.sec2 { background: var(--sec2-color); }
+    .materia-badge.sec3 { background: var(--sec3-color); }
 
-    footer { background-color: var(--primary); color: #A0AEC0; text-align: center; padding: 24px 16px; font-size: 0.82rem; margin-top: auto; border-top: 3px solid var(--secondary); }
+    .materia-date { font-size: 0.8rem; color: #64748B; margin-bottom: 12px; }
+    .materia-ementa { font-size: 0.92rem; background: #F8FAFC; padding: 10px; border-radius: 4px; margin-bottom: 12px; border-left: 3px solid #CBD5E1; }
+    .materia-body { font-size: 0.9rem; line-height: 1.6; white-space: pre-line; color: #334155; }
+
+    .card-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #E2E8F0; justify-content: flex-end; }
+    .btn-action { padding: 6px 12px; border: 1px solid #CBD5E1; border-radius: 4px; background: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+    .btn-action.pdf { color: var(--in-secondary-blue); border-color: var(--in-secondary-blue); }
+    .btn-action.edit { color: #b45309; border-color: #fcd34d; background: #fffbeb; }
+    .btn-action.delete { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
+
+    /* Publisher Sidebar */
+    .sidebar-panel { background: white; border: 2px solid var(--in-blue); border-radius: 8px; padding: 20px; position: sticky; top: 20px; }
+    .sidebar-panel h3 { font-size: 1.1rem; color: var(--in-blue); margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: #334155; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #CBD5E1; border-radius: 4px; font-size: 0.88rem; outline: none; }
+    .btn-submit { width: 100%; background: var(--in-green); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; }
+    .btn-submit:hover { background: var(--in-green-hover); }
+    .btn-cancel { width: 100%; background: #64748B; color: white; border: none; padding: 6px; border-radius: 4px; font-weight: 600; cursor: pointer; margin-top: 6px; display: none; }
+
+    footer { background: var(--in-blue); color: white; text-align: center; padding: 20px; font-size: 0.8rem; margin-top: 40px; border-top: 4px solid var(--in-green); }
   </style>
 </head>
 <body>
 
-  <header class="header-bar">
-    <div class="header-container">
-      <div class="logo-area">
-        <h1>DOU Simples</h1>
-        <p>Portal Independente de Publicações & Atos Informativos</p>
-      </div>
-      <span class="tag-badge">Projeto Acadêmico / Pessoal</span>
-    </div>
+  <header class="top-banner">
+    <h1>DOU SIMPLES - DIÁRIO OFICIAL SIMPLIFICADO</h1>
+    <p>Acesso rápido e fácil às publicações oficiais e atalhos de consulta</p>
   </header>
 
-  <main class="main-container">
-    <section class="hero-search">
-      <h2>Buscar Publicações</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">Consulte publicações e matérias cadastradas no sistema.</p>
-      <div class="search-box">
-        <input type="text" id="input-busca" placeholder="Digite termos, títulos ou assuntos..." onkeyup="filtrarLocal()">
-        <button onclick="carregarMaterias()">Pesquisar</button>
+  <div class="main-wrapper">
+
+    <!-- Search Bar -->
+    <section class="search-section">
+      <div class="search-box-container">
+        <input type="text" id="input-busca" class="search-input" placeholder="Busque por Atos, Editais, Nomes, Portarias..." onkeyup="filtrarLocal()">
+        <button class="btn-search" onclick="carregarMaterias()">Pesquisar</button>
       </div>
     </section>
 
-    <div class="content-grid">
-      <!-- Feed Principal -->
-      <section>
-        <div class="filter-pills">
-          <button class="pill active" onclick="filtrarCategoria('Todas', this)">Todas</button>
-          <button class="pill" onclick="filtrarCategoria('Seção 1', this)">Seção 1</button>
-          <button class="pill" onclick="filtrarCategoria('Seção 2', this)">Seção 2</button>
-          <button class="pill" onclick="filtrarCategoria('Seção 3', this)">Seção 3</button>
-          <button class="pill" onclick="filtrarCategoria('Geral', this)">Geral</button>
+    <!-- Top Section Shortcuts (Visual Imprensa Nacional) -->
+    <section class="sections-grid">
+      <div class="section-card">
+        <div>
+          <h2>SEÇÃO 1</h2>
+          <p>Atos Normativos, Decretos e Resoluções</p>
+        </div>
+        <button class="btn-section" onclick="filtrarCategoriaPill('Seção 1')">Acessar</button>
+      </div>
+
+      <div class="section-card">
+        <div>
+          <h2>SEÇÃO 2</h2>
+          <p>Atos de Pessoal, Nomeações e Exonerações</p>
+        </div>
+        <button class="btn-section" onclick="filtrarCategoriaPill('Seção 2')">Acessar</button>
+      </div>
+
+      <div class="section-card">
+        <div>
+          <h2>SEÇÃO 3</h2>
+          <p>Editais, Avisos, Contratos e Licitações</p>
+        </div>
+        <button class="btn-section" onclick="filtrarCategoriaPill('Seção 3')">Acessar</button>
+      </div>
+    </section>
+
+    <!-- Content & Form Grid -->
+    <div class="content-layout">
+      
+      <!-- Feed Area -->
+      <main>
+        <div class="filter-bar">
+          <button class="filter-btn active" id="btn-todas" onclick="filtrarCategoriaPill('Todas')">Todas</button>
+          <button class="filter-btn" id="btn-sec1" onclick="filtrarCategoriaPill('Seção 1')">Seção 1</button>
+          <button class="filter-btn" id="btn-sec2" onclick="filtrarCategoriaPill('Seção 2')">Seção 2</button>
+          <button class="filter-btn" id="btn-sec3" onclick="filtrarCategoriaPill('Seção 3')">Seção 3</button>
+          <button class="filter-btn" id="btn-geral" onclick="filtrarCategoriaPill('Geral')">Geral</button>
         </div>
 
         <div id="lista-materias">
-          <p style="text-align:center; color: var(--text-muted); padding: 20px;">Carregando publicações...</p>
+          <p style="text-align:center; color: #64748B; padding: 20px;">Carregando matérias...</p>
         </div>
-      </section>
+      </main>
 
-      <!-- Painel do Publicador -->
+      <!-- Sidebar Publisher -->
       <aside>
-        <div class="panel">
-          <div class="panel-title" id="form-title">📝 Nova Publicação</div>
+        <div class="sidebar-panel">
+          <h3 id="form-title">Cadastrar Publicação</h3>
           <form id="form-materia">
             <input type="hidden" id="materia-id">
 
             <div class="form-group">
               <label for="titulo">Título da Matéria *</label>
-              <input type="text" id="titulo" placeholder="Ex: Portaria nº 102/2026..." required>
+              <input type="text" id="titulo" placeholder="Ex: Portaria nº 102/2026" required>
             </div>
 
             <div class="form-group">
-              <label for="categoria">Categoria / Seção</label>
+              <label for="categoria">Seção / Categoria</label>
               <select id="categoria">
-                <option value="Geral">Geral</option>
                 <option value="Seção 1">Seção 1 (Atos Normativos)</option>
                 <option value="Seção 2">Seção 2 (Atos de Pessoal)</option>
-                <option value="Seção 3">Seção 3 (Editais & Avisos)</option>
+                <option value="Seção 3">Seção 3 (Editais e Avisos)</option>
+                <option value="Geral">Geral</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="resumo">Resumo / Ementa</label>
-              <textarea id="resumo" rows="2" placeholder="Breve síntese do conteúdo"></textarea>
+              <label for="resumo">Ementa / Resumo</label>
+              <textarea id="resumo" rows="2" placeholder="Síntese da publicação"></textarea>
             </div>
 
             <div class="form-group">
-              <label for="conteudo">Conteúdo Íntegra *</label>
-              <textarea id="conteudo" rows="5" placeholder="Texto completo da matéria..." required></textarea>
+              <label for="conteudo">Texto da Matéria *</label>
+              <textarea id="conteudo" rows="5" placeholder="Texto integral..." required></textarea>
             </div>
 
-            <button type="submit" id="btn-salvar" class="btn-submit">Salvar e Publicar</button>
+            <button type="submit" id="btn-salvar" class="btn-submit">Publicar Matéria</button>
             <button type="button" id="btn-cancelar" class="btn-cancel" onclick="limparFormulario()">Cancelar Edição</button>
           </form>
         </div>
       </aside>
+
     </div>
-  </main>
+  </div>
 
   <footer>
-    <p><strong>DOU Simples</strong> &copy; 2026 — Desenvolvido por <strong>dousimples</strong></p>
-    <p style="margin-top: 4px; font-size: 0.75rem; color: #718096;">
-      Este site é um projeto independente para demonstração e organização de dados. Não possui vínculo com órgãos governamentais.
-    </p>
+    <p><strong>DOU Simples</strong> &copy; 2026 — Projeto Independente e Acadêmico</p>
   </footer>
 
   <script>
@@ -172,7 +211,7 @@
 
     async function carregarMaterias() {
       const container = document.getElementById('lista-materias');
-      container.innerHTML = '<p style="text-align:center; color: var(--text-muted); padding: 20px;">Carregando publicações...</p>';
+      container.innerHTML = '<p style="text-align:center; color: #64748B; padding: 20px;">Carregando publicações...</p>';
 
       const { data, error } = await _supabase
         .from('materias')
@@ -180,7 +219,7 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        container.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados do banco.</p>';
+        container.innerHTML = '<p style="color:red; text-align:center;">Erro ao conectar com o banco de dados.</p>';
         return;
       }
 
@@ -202,49 +241,58 @@
 
       if (filtradas.length === 0) {
         container.innerHTML = `
-          <div class="materia-card" style="text-align:center; color: var(--text-muted);">
-            Nenhuma publicação encontrada.
+          <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid #CBD5E1; color: #64748B;">
+            Nenhuma publicação encontrada para o filtro selecionado. Use o formulário ao lado para cadastrar uma nova matéria!
           </div>
         `;
         return;
       }
 
-      container.innerHTML = filtradas.map(m => `
-        <article class="materia-card" id="card-${m.id}">
-          <div class="materia-header">
-            <h3 class="materia-title">${escaparHtml(m.titulo)}</h3>
-            <span class="materia-badge">${escaparHtml(m.categoria || 'Geral')}</span>
-          </div>
-          <div class="materia-meta">
-            📅 Publicado em: ${new Date(m.created_at).toLocaleDateString('pt-BR')} às ${new Date(m.created_at).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
-          </div>
-          ${m.resumo ? `<p class="materia-resumo"><strong>Ementa:</strong> ${escaparHtml(m.resumo)}</p>` : ''}
-          <div class="materia-conteudo">${escaparHtml(m.conteudo)}</div>
-          
-          <div class="card-actions">
-            <button class="btn-action pdf" onclick="gerarPDF(${m.id})">📄 Exportar PDF</button>
-            <button class="btn-action edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
-            <button class="btn-action delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
-          </div>
-        </article>
-      `).join('');
+      container.innerHTML = filtradas.map(m => {
+        let classeSecao = '';
+        if (m.categoria === 'Seção 1') classeSecao = 'sec1';
+        else if (m.categoria === 'Seção 2') classeSecao = 'sec2';
+        else if (m.categoria === 'Seção 3') classeSecao = 'sec3';
+
+        return `
+          <article class="materia-item ${classeSecao}" id="card-${m.id}">
+            <div class="materia-header">
+              <h3 class="materia-title">${escaparHtml(m.titulo)}</h3>
+              <span class="materia-badge ${classeSecao}">${escaparHtml(m.categoria || 'Geral')}</span>
+            </div>
+            <div class="materia-date">
+              📅 Publicado em: ${new Date(m.created_at).toLocaleDateString('pt-BR')} às ${new Date(m.created_at).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
+            </div>
+            ${m.resumo ? `<div class="materia-ementa"><strong>Ementa:</strong> ${escaparHtml(m.resumo)}</div>` : ''}
+            <div class="materia-body">${escaparHtml(m.conteudo)}</div>
+            
+            <div class="card-actions">
+              <button class="btn-action pdf" onclick="gerarPDF(${m.id})">📄 Baixar PDF</button>
+              <button class="btn-action edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
+              <button class="btn-action delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
+            </div>
+          </article>
+        `;
+      }).join('');
     }
 
-    function filtrarCategoria(cat, btn) {
+    function filtrarCategoriaPill(cat) {
       categoriaAtual = cat;
-      document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      
+      if (cat === 'Seção 1') document.getElementById('btn-sec1')?.classList.add('active');
+      else if (cat === 'Seção 2') document.getElementById('btn-sec2')?.classList.add('active');
+      else if (cat === 'Seção 3') document.getElementById('btn-sec3')?.classList.add('active');
+      else if (cat === 'Geral') document.getElementById('btn-geral')?.classList.add('active');
+      else document.getElementById('btn-todas')?.classList.add('active');
+
       renderizarLista();
     }
 
-    function filtrarLocal() {
-      renderizarLista();
-    }
+    function filtrarLocal() { renderizarLista(); }
 
-    // Ações de formulário (Criar / Editar)
     document.getElementById('form-materia').addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const id = document.getElementById('materia-id').value;
       const titulo = document.getElementById('titulo').value.trim();
       const categoria = document.getElementById('categoria').value;
@@ -252,102 +300,64 @@
       const conteudo = document.getElementById('conteudo').value.trim();
 
       if (id) {
-        // Atualizar existente
-        const { error } = await _supabase
-          .from('materias')
-          .update({ titulo, categoria, resumo, conteudo })
-          .eq('id', id);
-
+        const { error } = await _supabase.from('materias').update({ titulo, categoria, resumo, conteudo }).eq('id', id);
         if (error) alert('Erro ao atualizar: ' + error.message);
-        else {
-          alert('Matéria atualizada com sucesso!');
-          limparFormulario();
-          carregarMaterias();
-        }
+        else { alert('Matéria atualizada!'); limparFormulario(); carregarMaterias(); }
       } else {
-        // Criar novo
-        const { error } = await _supabase
-          .from('materias')
-          .insert([{ titulo, categoria, resumo, conteudo }]);
-
-        if (error) alert('Erro ao publicar: ' + error.message);
-        else {
-          alert('Matéria publicada com sucesso!');
-          limparFormulario();
-          carregarMaterias();
-        }
+        const { error } = await _supabase.from('materias').insert([{ titulo, categoria, resumo, conteudo }]);
+        if (error) alert('Erro ao cadastrar: ' + error.message);
+        else { alert('Matéria publicada com sucesso!'); limparFormulario(); carregarMaterias(); }
       }
     });
 
     function prepararEdicao(id) {
-      const materia = todasMaterias.find(m => m.id === id);
-      if (!materia) return;
-
-      document.getElementById('materia-id').value = materia.id;
-      document.getElementById('titulo').value = materia.titulo || '';
-      document.getElementById('categoria').value = materia.categoria || 'Geral';
-      document.getElementById('resumo').value = materia.resumo || '';
-      document.getElementById('conteudo').value = materia.conteudo || '';
-
-      document.getElementById('form-title').innerText = '✏️ Editar Publicação';
-      document.getElementById('btn-salvar').innerText = 'Atualizar Matéria';
+      const m = todasMaterias.find(item => item.id === id);
+      if (!m) return;
+      document.getElementById('materia-id').value = m.id;
+      document.getElementById('titulo').value = m.titulo || '';
+      document.getElementById('categoria').value = m.categoria || 'Seção 1';
+      document.getElementById('resumo').value = m.resumo || '';
+      document.getElementById('conteudo').value = m.conteudo || '';
+      document.getElementById('form-title').innerText = '✏️ Editar Matéria';
+      document.getElementById('btn-salvar').innerText = 'Atualizar';
       document.getElementById('btn-cancelar').style.display = 'block';
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function limparFormulario() {
       document.getElementById('materia-id').value = '';
       document.getElementById('form-materia').reset();
-      document.getElementById('form-title').innerText = '📝 Nova Publicação';
-      document.getElementById('btn-salvar').innerText = 'Salvar e Publicar';
+      document.getElementById('form-title').innerText = 'Cadastrar Publicação';
+      document.getElementById('btn-salvar').innerText = 'Publicar Matéria';
       document.getElementById('btn-cancelar').style.display = 'none';
     }
 
     async function excluirMateria(id) {
-      if (!confirm('Tem certeza que deseja excluir esta matéria permanentemente?')) return;
-
-      const { error } = await _supabase
-        .from('materias')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        alert('Erro ao excluir: ' + error.message);
-      } else {
-        alert('Matéria excluída com sucesso!');
-        carregarMaterias();
-      }
+      if (!confirm('Deseja excluir esta matéria?')) return;
+      const { error } = await _supabase.from('materias').delete().eq('id', id);
+      if (error) alert('Erro ao excluir: ' + error.message);
+      else carregarMaterias();
     }
 
     function gerarPDF(id) {
       const card = document.getElementById(`card-${id}`);
       if (!card) return;
-
-      // Cria uma cópia limpa do elemento para o PDF (sem os botões de ação)
       const clone = card.cloneNode(true);
       const actions = clone.querySelector('.card-actions');
       if (actions) actions.remove();
 
-      const opt = {
-        margin:       15,
-        filename:     `materia-dou-simples-${id}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf().set(opt).from(clone).save();
+      html2pdf().set({
+        margin: 15,
+        filename: `materia-dou-${id}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(clone).save();
     }
 
-    function escaparHtml(texto) {
-      if (!texto) return '';
-      return texto
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    function escaparHtml(t) {
+      if (!t) return '';
+      return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
     carregarMaterias();
