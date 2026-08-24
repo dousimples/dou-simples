@@ -8,197 +8,264 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rawline:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --in-blue: #002B49;
-      --in-secondary-blue: #1351B4;
-      --in-green: #006837;
-      --in-green-hover: #004d28;
-      --bg-gray: #F4F6F9;
+      --primary-blue: #002B49;
+      --secondary-blue: #1351B4;
+      --accent-green: #006837;
+      --accent-green-hover: #004d28;
+      --bg-light: #F4F6F9;
       --card-bg: #FFFFFF;
-      --text-color: #222222;
-      --border-color: #002B49;
-      --sec1-color: #006837;
-      --sec2-color: #1351B4;
-      --sec3-color: #d97706;
+      --text-dark: #1C2430;
+      --text-muted: #627282;
+      --border-color: #D1D5DB;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background-color: var(--bg-gray); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+    body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh; }
 
-    /* Top Banner */
-    .top-banner { background-color: var(--in-blue); color: white; text-align: center; padding: 24px 16px; border-bottom: 4px solid var(--in-green); }
-    .top-banner h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .top-banner p { font-size: 0.95rem; opacity: 0.9; font-weight: 300; }
+    /* Top Nav */
+    .nav-bar { background-color: var(--primary-blue); border-bottom: 3px solid var(--accent-green); padding: 12px 24px; color: white; }
+    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .nav-links { display: flex; gap: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; list-style: none; }
+    .nav-links a { color: white; text-decoration: none; opacity: 0.9; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; text-decoration: underline; }
 
-    .main-wrapper { max-width: 1120px; width: 100%; margin: 0 auto; padding: 20px 16px; flex: 1; }
+    /* Hero & Title */
+    .hero-header { text-align: center; padding: 30px 16px 20px; }
+    .hero-title { font-size: 2rem; font-weight: 800; color: var(--primary-blue); letter-spacing: -0.5px; text-transform: uppercase; }
+    .hero-subtitle { font-size: 0.95rem; color: var(--text-muted); font-weight: 400; margin-top: 4px; }
 
-    /* Search Header */
-    .search-section { background: white; border: 2px solid #E2E8F0; border-radius: 8px; padding: 20px; margin-bottom: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-    .search-box-container { display: flex; gap: 10px; margin-top: 10px; }
-    .search-input { flex: 1; padding: 12px 16px; border: 2px solid #CBD5E1; border-radius: 6px; font-size: 1rem; outline: none; }
-    .search-input:focus { border-color: var(--in-secondary-blue); }
-    .btn-search { background-color: var(--in-green); color: white; border: none; padding: 0 28px; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s; }
-    .btn-search:hover { background-color: var(--in-green-hover); }
+    /* Search Box */
+    .search-wrapper { max-width: 900px; margin: 15px auto 30px; padding: 0 16px; }
+    .search-container { display: flex; background: #E5E7EB; padding: 6px; border-radius: 8px; border: 2px solid #CA8A04; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .search-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px 0 0 6px; font-size: 0.95rem; outline: none; }
+    .btn-search { background-color: var(--accent-green); color: white; border: none; padding: 0 32px; border-radius: 0 6px 6px 0; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn-search:hover { background-color: var(--accent-green-hover); }
 
-    /* Section Cards (Imprensa Nacional style) */
-    .sections-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 28px; }
-    .section-card { background: white; border: 2px solid var(--in-blue); border-radius: 8px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    .section-card h2 { font-size: 1.2rem; color: var(--in-blue); margin-bottom: 6px; font-weight: 700; }
-    .section-card p { font-size: 0.85rem; color: #64748B; margin-bottom: 16px; }
-    .btn-section { background-color: var(--in-green); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; }
-    .btn-section:hover { background-color: var(--in-green-hover); }
+    .main-container { max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 16px 40px; flex: 1; }
 
-    /* Main Content Layout */
-    .content-layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
-    @media (max-width: 850px) { .content-layout { grid-template-columns: 1fr; } }
+    /* 4 Eixos / Seções Grid */
+    .section-title-label { font-size: 1.1rem; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .eixos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 36px; }
+    @media (max-width: 992px) { .eixos-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 576px) { .eixos-grid { grid-template-columns: 1fr; } }
 
-    /* Feed & Pills */
-    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-    .filter-btn { padding: 8px 16px; border-radius: 20px; background: #E2E8F0; border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; color: #334155; }
-    .filter-btn.active { background: var(--in-blue); color: white; }
+    .eixo-card { background: var(--card-bg); border: 2px solid var(--primary-blue); border-radius: 8px; padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .eixo-icon { font-size: 1.8rem; margin-bottom: 8px; color: var(--primary-blue); }
+    .eixo-title { font-size: 1.05rem; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 4px; }
+    .eixo-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; min-height: 32px; }
+    .btn-eixo { background-color: var(--accent-green); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; text-transform: uppercase; width: 100%; font-size: 0.85rem; }
+    .btn-eixo:hover { background-color: var(--accent-green-hover); }
 
-    .materia-item { background: white; border: 1px solid #CBD5E1; border-left: 6px solid var(--in-blue); border-radius: 6px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
-    .materia-item.sec1 { border-left-color: var(--sec1-color); }
-    .materia-item.sec2 { border-left-color: var(--sec2-color); }
-    .materia-item.sec3 { border-left-color: var(--sec3-color); }
+    /* Content Layout (Main + Sidebar) */
+    .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 28px; }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
 
-    .materia-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
-    .materia-title { font-size: 1.1rem; font-weight: 700; color: var(--in-blue); }
-    .materia-badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; color: white; background: var(--in-blue); }
-    .materia-badge.sec1 { background: var(--sec1-color); }
-    .materia-badge.sec2 { background: var(--sec2-color); }
-    .materia-badge.sec3 { background: var(--sec3-color); }
+    /* Destaques de Hoje Feed */
+    .destaques-feed { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 30px; }
+    @media (max-width: 600px) { .destaques-feed { grid-template-columns: 1fr; } }
 
-    .materia-date { font-size: 0.8rem; color: #64748B; margin-bottom: 12px; }
-    .materia-ementa { font-size: 0.92rem; background: #F8FAFC; padding: 10px; border-radius: 4px; margin-bottom: 12px; border-left: 3px solid #CBD5E1; }
-    .materia-body { font-size: 0.9rem; line-height: 1.6; white-space: pre-line; color: #334155; }
+    .materia-card { background: var(--card-bg); border: 1px solid var(--border-color); border-top: 5px solid var(--primary-blue); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+    .materia-card.destaque-principal { background: var(--primary-blue); color: white; border-top-color: var(--accent-green); }
+    .materia-card.destaque-principal .materia-card-title { color: white; }
+    .materia-card.destaque-principal .materia-card-date { color: #93C5FD; }
+    .materia-card.destaque-principal .materia-card-text { color: #E2E8F0; }
 
-    .card-actions { display: flex; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #E2E8F0; justify-content: flex-end; }
-    .btn-action { padding: 6px 12px; border: 1px solid #CBD5E1; border-radius: 4px; background: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-    .btn-action.pdf { color: var(--in-secondary-blue); border-color: var(--in-secondary-blue); }
-    .btn-action.edit { color: #b45309; border-color: #fcd34d; background: #fffbeb; }
-    .btn-action.delete { color: #dc2626; border-color: #fca5a5; background: #fef2f2; }
+    .materia-card-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; background: #E5E7EB; color: var(--primary-blue); border-radius: 4px; display: inline-block; margin-bottom: 8px; width: fit-content; }
+    .materia-card.destaque-principal .materia-card-tag { background: rgba(255,255,255,0.2); color: white; }
 
-    /* Publisher Sidebar */
-    .sidebar-panel { background: white; border: 2px solid var(--in-blue); border-radius: 8px; padding: 20px; position: sticky; top: 20px; }
-    .sidebar-panel h3 { font-size: 1.1rem; color: var(--in-blue); margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
+    .materia-card-title { font-size: 1rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 8px; line-height: 1.3; }
+    .materia-card-text { font-size: 0.85rem; color: #374151; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .materia-card-date { font-size: 0.75rem; color: var(--text-muted); font-style: italic; margin-bottom: 12px; }
+
+    .card-actions { display: flex; gap: 6px; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 10px; margin-top: auto; justify-content: flex-end; }
+    .btn-act { padding: 4px 8px; font-size: 0.75rem; font-weight: 600; border-radius: 4px; border: 1px solid var(--border-color); background: white; cursor: pointer; color: var(--text-dark); }
+    .btn-act.pdf { color: var(--secondary-blue); border-color: var(--secondary-blue); }
+    .btn-act.edit { color: #B45309; border-color: #FCD34D; background: #FEF3C7; }
+    .btn-act.delete { color: #DC2626; border-color: #FCA5A5; background: #FEF2F2; }
+
+    /* Publisher Box */
+    .publisher-box { background: var(--card-bg); border: 2px solid var(--primary-blue); border-radius: 8px; padding: 20px; margin-top: 20px; }
+    .publisher-box h3 { font-size: 1.05rem; color: var(--primary-blue); font-weight: 700; margin-bottom: 14px; border-bottom: 2px solid var(--bg-light); padding-bottom: 8px; }
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: #334155; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #CBD5E1; border-radius: 4px; font-size: 0.88rem; outline: none; }
-    .btn-submit { width: 100%; background: var(--in-green); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; }
-    .btn-submit:hover { background: var(--in-green-hover); }
-    .btn-cancel { width: 100%; background: #64748B; color: white; border: none; padding: 6px; border-radius: 4px; font-weight: 600; cursor: pointer; margin-top: 6px; display: none; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.85rem; outline: none; }
+    .btn-submit { width: 100%; background: var(--accent-green); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+    .btn-submit:hover { background: var(--accent-green-hover); }
+    .btn-cancel { width: 100%; background: #6B7280; color: white; border: none; padding: 6px; border-radius: 4px; font-weight: 600; cursor: pointer; margin-top: 6px; display: none; }
 
-    footer { background: var(--in-blue); color: white; text-align: center; padding: 20px; font-size: 0.8rem; margin-top: 40px; border-top: 4px solid var(--in-green); }
+    /* Sidebar Widgets */
+    .sidebar-widget { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 18px; margin-bottom: 20px; }
+    .widget-title { font-size: 0.95rem; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 12px; border-bottom: 2px solid var(--bg-light); padding-bottom: 6px; }
+    .widget-list { list-style: none; }
+    .widget-list li { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed #E5E7EB; font-size: 0.82rem; }
+    .widget-list li:last-child { border-bottom: none; margin-bottom: 0; }
+    .widget-list a { color: var(--secondary-blue); text-decoration: none; font-weight: 600; }
+    .widget-list a:hover { text-decoration: underline; }
+    .widget-list .date-sub { font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 2px; }
+
+    footer { background-color: var(--primary-blue); color: #9CA3AF; text-align: center; padding: 24px 16px; font-size: 0.82rem; border-top: 4px solid var(--accent-green); margin-top: auto; }
+    footer strong { color: white; }
   </style>
 </head>
 <body>
 
-  <header class="top-banner">
-    <h1>DOU SIMPLES - DIÁRIO OFICIAL SIMPLIFICADO</h1>
-    <p>Acesso rápido e fácil às publicações oficiais e atalhos de consulta</p>
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <ul class="nav-links">
+        <li><a href="#">Início</a></li>
+        <li><a href="#">Diário Oficial</a></li>
+        <li><a href="#">Busca Avançada</a></li>
+        <li><a href="#form-materia">Publicar</a></li>
+        <li><a href="#">Sobre o Projeto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Header -->
+  <header class="hero-header">
+    <h1 class="hero-title">DOU SIMPLES - DIÁRIO OFICIAL SIMPLIFICADO</h1>
+    <p class="hero-subtitle">Acesso rápido e fácil às publicações e atos oficiais do sistema</p>
   </header>
 
-  <div class="main-wrapper">
+  <!-- Search Box -->
+  <div class="search-wrapper">
+    <div class="search-container">
+      <input type="text" id="input-busca" class="search-input" placeholder="Busque por Atos, Editais, Nomes, Portarias..." onkeyup="filtrarLocal()">
+      <button class="btn-search" onclick="carregarMaterias()">Pesquisar</button>
+    </div>
+  </div>
 
-    <!-- Search Bar -->
-    <section class="search-section">
-      <div class="search-box-container">
-        <input type="text" id="input-busca" class="search-input" placeholder="Busque por Atos, Editais, Nomes, Portarias..." onkeyup="filtrarLocal()">
-        <button class="btn-search" onclick="carregarMaterias()">Pesquisar</button>
+  <main class="main-container">
+
+    <!-- 4 EIXOS DESTAQUE -->
+    <div class="section-title-label">📌 Eixos & Seções de Consulta</div>
+    <section class="eixos-grid">
+      <div class="eixo-card">
+        <div>
+          <div class="eixo-icon">📄</div>
+          <div class="eixo-title">EIXO 1 - SEÇÃO 1</div>
+          <div class="eixo-subtitle">Atos Normativos, Decretos e Resoluções</div>
+        </div>
+        <button class="btn-eixo" onclick="filtrarEixo('Seção 1')">Acessar</button>
+      </div>
+
+      <div class="eixo-card">
+        <div>
+          <div class="eixo-icon">👤</div>
+          <div class="eixo-title">EIXO 2 - SEÇÃO 2</div>
+          <div class="eixo-subtitle">Atos de Pessoal, Nomeações e Exonerações</div>
+        </div>
+        <button class="btn-eixo" onclick="filtrarEixo('Seção 2')">Acessar</button>
+      </div>
+
+      <div class="eixo-card">
+        <div>
+          <div class="eixo-icon">📋</div>
+          <div class="eixo-title">EIXO 3 - SEÇÃO 3</div>
+          <div class="eixo-subtitle">Editais, Avisos, Contratos e Licitações</div>
+        </div>
+        <button class="btn-eixo" onclick="filtrarEixo('Seção 3')">Acessar</button>
+      </div>
+
+      <div class="eixo-card">
+        <div>
+          <div class="eixo-icon">⚡</div>
+          <div class="eixo-title">EIXO 4 - EDIÇÃO EXTRA</div>
+          <div class="eixo-subtitle">Atos Especiais e Informativos de Urgência</div>
+        </div>
+        <button class="btn-eixo" onclick="filtrarEixo('Geral')">Acessar</button>
       </div>
     </section>
 
-    <!-- Top Section Shortcuts (Visual Imprensa Nacional) -->
-    <section class="sections-grid">
-      <div class="section-card">
-        <div>
-          <h2>SEÇÃO 1</h2>
-          <p>Atos Normativos, Decretos e Resoluções</p>
-        </div>
-        <button class="btn-section" onclick="filtrarCategoriaPill('Seção 1')">Acessar</button>
-      </div>
-
-      <div class="section-card">
-        <div>
-          <h2>SEÇÃO 2</h2>
-          <p>Atos de Pessoal, Nomeações e Exonerações</p>
-        </div>
-        <button class="btn-section" onclick="filtrarCategoriaPill('Seção 2')">Acessar</button>
-      </div>
-
-      <div class="section-card">
-        <div>
-          <h2>SEÇÃO 3</h2>
-          <p>Editais, Avisos, Contratos e Licitações</p>
-        </div>
-        <button class="btn-section" onclick="filtrarCategoriaPill('Seção 3')">Acessar</button>
-      </div>
-    </section>
-
-    <!-- Content & Form Grid -->
-    <div class="content-layout">
+    <!-- Content Layout -->
+    <div class="content-grid">
       
-      <!-- Feed Area -->
-      <main>
-        <div class="filter-bar">
-          <button class="filter-btn active" id="btn-todas" onclick="filtrarCategoriaPill('Todas')">Todas</button>
-          <button class="filter-btn" id="btn-sec1" onclick="filtrarCategoriaPill('Seção 1')">Seção 1</button>
-          <button class="filter-btn" id="btn-sec2" onclick="filtrarCategoriaPill('Seção 2')">Seção 2</button>
-          <button class="filter-btn" id="btn-sec3" onclick="filtrarCategoriaPill('Seção 3')">Seção 3</button>
-          <button class="filter-btn" id="btn-geral" onclick="filtrarCategoriaPill('Geral')">Geral</button>
+      <!-- Left Column: Destaques de Hoje & Cadastro -->
+      <div>
+        <div class="section-title-label">📰 Destaques de Hoje</div>
+        
+        <div id="destaques-container" class="destaques-feed">
+          <p style="color: var(--text-muted);">Carregando matérias em destaque...</p>
         </div>
 
-        <div id="lista-materias">
-          <p style="text-align:center; color: #64748B; padding: 20px;">Carregando matérias...</p>
-        </div>
-      </main>
-
-      <!-- Sidebar Publisher -->
-      <aside>
-        <div class="sidebar-panel">
-          <h3 id="form-title">Cadastrar Publicação</h3>
+        <!-- Publisher Form -->
+        <section class="publisher-box">
+          <h3 id="form-title">📝 Nova Publicação / Cadastrar Matéria</h3>
           <form id="form-materia">
             <input type="hidden" id="materia-id">
 
             <div class="form-group">
               <label for="titulo">Título da Matéria *</label>
-              <input type="text" id="titulo" placeholder="Ex: Portaria nº 102/2026" required>
+              <input type="text" id="titulo" placeholder="Ex: Portaria nº 102/2026 - Nomeação de Cargo" required>
             </div>
 
             <div class="form-group">
-              <label for="categoria">Seção / Categoria</label>
+              <label for="categoria">Eixo / Seção</label>
               <select id="categoria">
-                <option value="Seção 1">Seção 1 (Atos Normativos)</option>
-                <option value="Seção 2">Seção 2 (Atos de Pessoal)</option>
-                <option value="Seção 3">Seção 3 (Editais e Avisos)</option>
-                <option value="Geral">Geral</option>
+                <option value="Seção 1">Eixo 1 - Seção 1 (Atos Normativos)</option>
+                <option value="Seção 2">Eixo 2 - Seção 2 (Atos de Pessoal)</option>
+                <option value="Seção 3">Eixo 3 - Seção 3 (Editais e Avisos)</option>
+                <option value="Geral">Eixo 4 - Edição Extra / Geral</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="resumo">Ementa / Resumo</label>
-              <textarea id="resumo" rows="2" placeholder="Síntese da publicação"></textarea>
+              <label for="resumo">Resumo / Ementa</label>
+              <textarea id="resumo" rows="2" placeholder="Síntese explicativa da publicação..."></textarea>
             </div>
 
             <div class="form-group">
-              <label for="conteudo">Texto da Matéria *</label>
-              <textarea id="conteudo" rows="5" placeholder="Texto integral..." required></textarea>
+              <label for="conteudo">Conteúdo Íntegra *</label>
+              <textarea id="conteudo" rows="4" placeholder="Texto completo da norma ou ato..." required></textarea>
             </div>
 
-            <button type="submit" id="btn-salvar" class="btn-submit">Publicar Matéria</button>
+            <button type="submit" id="btn-salvar" class="btn-submit">Salvar e Publicar</button>
             <button type="button" id="btn-cancelar" class="btn-cancel" onclick="limparFormulario()">Cancelar Edição</button>
           </form>
+        </section>
+      </div>
+
+      <!-- Right Column: Sidebar -->
+      <aside>
+        <div class="sidebar-widget">
+          <div class="widget-title">📌 Notícias Recentes</div>
+          <ul class="widget-list" id="lista-recentes">
+            <li>Carregando...</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="widget-title">🔗 Links Úteis</div>
+          <ul class="widget-list">
+            <li><a href="#">Consulta de Atos Normativos</a></li>
+            <li><a href="#">Manuais e Orientações</a></li>
+            <li><a href="#">Calendário de Publicações</a></li>
+            <li><a href="#">Pesquisa Textual Avançada</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="widget-title">❓ FAQ & Ajuda</div>
+          <ul class="widget-list">
+            <li><strong>Como publicar uma matéria?</strong> Use o formulário lateral "Nova Publicação".</li>
+            <li><strong>Como exportar em PDF?</strong> Clique no botão "PDF" no card da matéria desejada.</li>
+            <li><strong>Onde ficam salvas?</strong> Directamente no banco de dados Supabase em tempo real.</li>
+          </ul>
         </div>
       </aside>
 
     </div>
-  </div>
+  </main>
 
   <footer>
-    <p><strong>DOU Simples</strong> &copy; 2026 — Projeto Independente e Acadêmico</p>
+    <p><strong>DOU Simples</strong> &copy; 2026 — Desenvolvido por <strong>dousimples</strong></p>
+    <p style="margin-top: 4px; font-size: 0.75rem; color: #9CA3AF;">
+      Este portal é um projeto independente e acadêmico para organização e consulta de dados.
+    </p>
   </footer>
 
   <script>
@@ -207,11 +274,11 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let todasMaterias = [];
-    let categoriaAtual = 'Todas';
+    let filtroEixo = 'Todas';
 
     async function carregarMaterias() {
-      const container = document.getElementById('lista-materias');
-      container.innerHTML = '<p style="text-align:center; color: #64748B; padding: 20px;">Carregando publicações...</p>';
+      const container = document.getElementById('destaques-container');
+      container.innerHTML = '<p style="color: var(--text-muted); grid-column: span 2;">Carregando dados do banco...</p>';
 
       const { data, error } = await _supabase
         .from('materias')
@@ -219,77 +286,80 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        container.innerHTML = '<p style="color:red; text-align:center;">Erro ao conectar com o banco de dados.</p>';
+        container.innerHTML = '<p style="color: red; grid-column: span 2;">Erro ao carregar do banco.</p>';
         return;
       }
 
       todasMaterias = data || [];
-      renderizarLista();
+      renderizarFeed();
+      renderizarRecentes();
     }
 
-    function renderizarLista() {
-      const container = document.getElementById('lista-materias');
-      const termoBusca = document.getElementById('input-busca').value.toLowerCase();
+    function renderizarFeed() {
+      const container = document.getElementById('destaques-container');
+      const termo = document.getElementById('input-busca').value.toLowerCase();
 
       let filtradas = todasMaterias.filter(m => {
-        const bateCategoria = (categoriaAtual === 'Todas') || (m.categoria === categoriaAtual);
-        const bateBusca = (m.titulo || '').toLowerCase().includes(termoBusca) ||
-                          (m.resumo || '').toLowerCase().includes(termoBusca) ||
-                          (m.conteudo || '').toLowerCase().includes(termoBusca);
-        return bateCategoria && bateBusca;
+        const bateEixo = (filtroEixo === 'Todas') || (m.categoria === filtroEixo);
+        const bateBusca = (m.titulo || '').toLowerCase().includes(termo) ||
+                          (m.resumo || '').toLowerCase().includes(termo) ||
+                          (m.conteudo || '').toLowerCase().includes(termo);
+        return bateEixo && bateBusca;
       });
 
       if (filtradas.length === 0) {
         container.innerHTML = `
-          <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid #CBD5E1; color: #64748B;">
-            Nenhuma publicação encontrada para o filtro selecionado. Use o formulário ao lado para cadastrar uma nova matéria!
+          <div style="grid-column: span 2; background: white; padding: 20px; text-align: center; border-radius: 6px; border: 1px solid var(--border-color); color: var(--text-muted);">
+            Nenhuma matéria encontrada. Cadastre uma nova matéria no formulário abaixo!
           </div>
         `;
         return;
       }
 
-      container.innerHTML = filtradas.map(m => {
-        let classeSecao = '';
-        if (m.categoria === 'Seção 1') classeSecao = 'sec1';
-        else if (m.categoria === 'Seção 2') classeSecao = 'sec2';
-        else if (m.categoria === 'Seção 3') classeSecao = 'sec3';
+      container.innerHTML = filtradas.map((m, idx) => {
+        const eDestaque = idx === 0 && filtroEixo === 'Todas';
+        const dataStr = new Date(m.created_at).toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
         return `
-          <article class="materia-item ${classeSecao}" id="card-${m.id}">
-            <div class="materia-header">
-              <h3 class="materia-title">${escaparHtml(m.titulo)}</h3>
-              <span class="materia-badge ${classeSecao}">${escaparHtml(m.categoria || 'Geral')}</span>
+          <div class="materia-card ${eDestaque ? 'destaque-principal' : ''}" id="card-${m.id}">
+            <div>
+              <span class="materia-card-tag">${escaparHtml(m.categoria || 'Geral')}</span>
+              <div class="materia-card-title">${escaparHtml(m.titulo)}</div>
+              <div class="materia-card-date">${dataStr}</div>
+              <div class="materia-card-text">${escaparHtml(m.resumo || m.conteudo)}</div>
             </div>
-            <div class="materia-date">
-              📅 Publicado em: ${new Date(m.created_at).toLocaleDateString('pt-BR')} às ${new Date(m.created_at).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}
-            </div>
-            ${m.resumo ? `<div class="materia-ementa"><strong>Ementa:</strong> ${escaparHtml(m.resumo)}</div>` : ''}
-            <div class="materia-body">${escaparHtml(m.conteudo)}</div>
             
             <div class="card-actions">
-              <button class="btn-action pdf" onclick="gerarPDF(${m.id})">📄 Baixar PDF</button>
-              <button class="btn-action edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
-              <button class="btn-action delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
+              <button class="btn-act pdf" onclick="gerarPDF(${m.id})">📄 PDF</button>
+              <button class="btn-act edit" onclick="prepararEdicao(${m.id})">✏️ Editar</button>
+              <button class="btn-act delete" onclick="excluirMateria(${m.id})">🗑️ Excluir</button>
             </div>
-          </article>
+          </div>
         `;
       }).join('');
     }
 
-    function filtrarCategoriaPill(cat) {
-      categoriaAtual = cat;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      
-      if (cat === 'Seção 1') document.getElementById('btn-sec1')?.classList.add('active');
-      else if (cat === 'Seção 2') document.getElementById('btn-sec2')?.classList.add('active');
-      else if (cat === 'Seção 3') document.getElementById('btn-sec3')?.classList.add('active');
-      else if (cat === 'Geral') document.getElementById('btn-geral')?.classList.add('active');
-      else document.getElementById('btn-todas')?.classList.add('active');
+    function renderizarRecentes() {
+      const listaRecentes = document.getElementById('lista-recentes');
+      if (todasMaterias.length === 0) {
+        listaRecentes.innerHTML = '<li>Nenhuma matéria recente.</li>';
+        return;
+      }
 
-      renderizarLista();
+      listaRecentes.innerHTML = todasMaterias.slice(0, 5).map(m => `
+        <li>
+          <a href="#card-${m.id}">${escaparHtml(m.titulo)}</a>
+          <span class="date-sub">${new Date(m.created_at).toLocaleDateString('pt-BR')}</span>
+        </li>
+      `).join('');
     }
 
-    function filtrarLocal() { renderizarLista(); }
+    function filtrarEixo(eixo) {
+      filtroEixo = eixo;
+      renderizarFeed();
+    }
+
+    function filtrarLocal() { renderizarFeed(); }
 
     document.getElementById('form-materia').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -306,7 +376,7 @@
       } else {
         const { error } = await _supabase.from('materias').insert([{ titulo, categoria, resumo, conteudo }]);
         if (error) alert('Erro ao cadastrar: ' + error.message);
-        else { alert('Matéria publicada com sucesso!'); limparFormulario(); carregarMaterias(); }
+        else { alert('Matéria cadastrada com sucesso!'); limparFormulario(); carregarMaterias(); }
       }
     });
 
@@ -319,21 +389,21 @@
       document.getElementById('resumo').value = m.resumo || '';
       document.getElementById('conteudo').value = m.conteudo || '';
       document.getElementById('form-title').innerText = '✏️ Editar Matéria';
-      document.getElementById('btn-salvar').innerText = 'Atualizar';
+      document.getElementById('btn-salvar').innerText = 'Atualizar Alterações';
       document.getElementById('btn-cancelar').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('form-materia').scrollIntoView({ behavior: 'smooth' });
     }
 
     function limparFormulario() {
       document.getElementById('materia-id').value = '';
       document.getElementById('form-materia').reset();
-      document.getElementById('form-title').innerText = 'Cadastrar Publicação';
-      document.getElementById('btn-salvar').innerText = 'Publicar Matéria';
+      document.getElementById('form-title').innerText = '📝 Nova Publicação / Cadastrar Matéria';
+      document.getElementById('btn-salvar').innerText = 'Salvar e Publicar';
       document.getElementById('btn-cancelar').style.display = 'none';
     }
 
     async function excluirMateria(id) {
-      if (!confirm('Deseja excluir esta matéria?')) return;
+      if (!confirm('Tem certeza que deseja excluir esta matéria?')) return;
       const { error } = await _supabase.from('materias').delete().eq('id', id);
       if (error) alert('Erro ao excluir: ' + error.message);
       else carregarMaterias();
