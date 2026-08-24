@@ -125,7 +125,7 @@
     .btn-admin.edit { background: #FBBF24; color: #78350F; }
     .btn-admin.delete { background: #F87171; color: #7F1D1D; }
 
-    /* Modal Formulário de Publicação */
+    /* Modal Formulário */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 43, 73, 0.75); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px; }
     .modal-content { background: white; width: 100%; max-width: 650px; border-radius: 8px; border: 2px solid var(--in-blue); padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #F1F5F9; padding-bottom: 8px; }
@@ -179,7 +179,7 @@
       <button class="eixo-btn amb" id="card-eixo-ambiental" onclick="filtrarEixo('Ambiental')">🌱 Ambiental</button>
     </section>
 
-    <!-- Feed de Noticias -->
+    <!-- Feed de Matérias -->
     <main id="feed-materias" class="feed-grid">
       <p style="text-align:center; color: var(--text-muted); padding: 20px; grid-column: 1/-1;">Carregando matérias...</p>
     </main>
@@ -212,7 +212,7 @@
         </div>
 
         <div class="form-group">
-          <label for="imagem_url">URL da Imagem de Capa</label>
+          <label for="imagem_url">URL da Imagem de Capa (Unsplash)</label>
           <input type="url" id="imagem_url" placeholder="https://images.unsplash.com/...">
         </div>
 
@@ -255,7 +255,7 @@
     const SUPABASE_KEY = 'sb_publishable_EmZcTTfqPGMBG7_rjzh09g_18qMQ-AB';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    /* Lista Completa de Matérias Iniciais com Texto Completo, Histórico, Links e Fotos Temáticas */
+    /* Matérias Iniciais completas com Linguagem Simples, Links do DOU, Histórico do Planalto e Imagens */
     const MATERIAS_INICIAIS = [
       {
         titulo: "Portaria Conjunta nº 42 - Regras Simplificadas para Solicitação do BPC",
@@ -264,8 +264,8 @@
         link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/l8742.htm",
         imagem_url: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1000&q=80",
         resumo: "O Governo Federal simplificou as exigências para idosos e pessoas com deficiência solicitarem o Benefício de Prestação Continuada (BPC) sem burocracia.",
-        historico: "O Benefício de Prestação Continuada foi criado pela Lei Orgânica da Assistência Social (LOAS - Lei nº 8.742/1993). Ao longo dos anos, o excesso de exigências presenciais gerou grandes filas de espera nas agências do INSS. Esta nova portaria moderniza o processo previsto na lei original.",
-        conteudo: "A nova Portaria Conjunta nº 42 facilita o acesso de milhares de brasileiros ao Benefício de Prestação Continuada (BPC).\n\nO que muda na prática:\n1. Comprovação de Renda Simplificada: A verificação de renda familiar agora é feita automaticamente pelo sistema do Cadastro Único (CadÚnico), sem necessidade de apresentar pilhas de papéis.\n2. Perícia Médica Online: Pessoas com deficiência poderão anexar laudos médicos diretamente pelo aplicativo 'Meu INSS', acelerando a análise técnica.\n3. Atendimento no CRAS: Não é mais necessário ir até uma agência bancária ou do INSS para tirar dúvidas; o atendimento inicial pode ser feito diretamente no CRAS do seu município."
+        historico: "O Benefício de Prestação Continuada foi criado pela Lei Orgânica da Assistência Social (LOAS - Lei nº 8.742/1993). Ao longo dos anos, a exigência de múltiplos documentos gerou filas de espera. Esta portaria moderniza o processo previsto na lei original.",
+        conteudo: "A nova Portaria Conjunta nº 42 facilita o acesso de milhares de brasileiros ao Benefício de Prestação Continuada (BPC).\n\nO que muda na prática:\n1. Comprovação de Renda Automatizada: A verificação de renda familiar agora é feita via sistema do Cadastro Único (CadÚnico).\n2. Envio de Laudo Online: Pessoas com deficiência podem anexar laudos médicos diretamente pelo 'Meu INSS'.\n3. Apoio nos CRAS: O cidadão conta com suporte direto no CRAS do seu município."
       },
       {
         titulo: "Decreto nº 11.890 - Programa de Incentivo à Preservação Ambiental e Redução de Tarifas",
@@ -274,8 +274,8 @@
         link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/l12651.htm",
         imagem_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1000&q=80",
         resumo: "Famílias e pequenos produtores rurais que economizarem água e preservarem matas nativas terão descontos em contas públicas.",
-        historico: "Esta medida complementa as diretrizes estabelecidas pelo Código Florestal Brasileiro (Lei nº 12.651/2012) e pela Lei de Gestão de Florestas Públicas, criando incentivos financeiros diretos para o cidadão que preserva.",
-        conteudo: "O Decreto nº 11.890 institui o programa de recompensa ecológica para cidadãos e pequenos produtores.\n\nPrincipais benefícios para o cidadão:\n- Desconto na Conta de Água e Luz: Famílias que comprovarem redução contínua no consumo mensal ou captação de água da chuva terão até 15% de abatimento.\n- Apoio ao Pequeno Produtor Rural: Quem mantiver áreas de preservação permanente (APP) conservadas terá prioridade e subsídio em financiamentos agrícolas.\n- Inscrição Simplificada: A adesão é feita gratuitamente através do portal oficial de serviços ambientais do governo."
+        historico: "A medida complementa as diretrizes do Código Florestal Brasileiro (Lei nº 12.651/2012) e da Lei de Gestão de Florestas Públicas, criando incentivos financeiros diretos para a conservação ambiental.",
+        conteudo: "O Decreto nº 11.890 institui o programa de recompensa ecológica.\n\nPrincipais benefícios para o cidadão:\n- Desconto na Conta de Água e Luz: Redução de até 15% para quem comprovar economia sustentável.\n- Apoio ao Pequeno Produtor: Prioridade em financiamentos agrícolas para quem conservar áreas de preservação permanente.\n- Adesão Digital: Inscrição gratuita no portal de serviços ambientais."
       },
       {
         titulo: "Instrução Normativa nº 15 - Uso Obrigatório da Linguagem Simples nos Atos Oficiais",
@@ -283,9 +283,9 @@
         link_dou: "https://www.in.gov.br/web/dou/-/instrucao-normativa-n-15",
         link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/l13460.htm",
         imagem_url: "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=1000&q=80",
-        resumo: "Todos os órgãos públicos da administração federal são obrigados a publicar resumos em linguagem clara e acessível no Diário Oficial.",
-        historico: "A iniciativa fundamenta-se na Lei de Defesa dos Direitos do Usuário do Serviço Público (Lei nº 13.460/2017) e na Lei de Acesso à Informação (Lei nº 12.527/2011), visando garantir que todo cidadão entenda as leis sem precisar de auxílio técnico.",
-        conteudo: "A Instrução Normativa nº 15 estabelece um novo padrão de comunicação transparente para a administração pública federal.\n\nRegras estabelecidas:\n- Fim do 'Juridiquês': Fica proibido o uso excessivo de termos em latim ou jargões técnicos sem a devida explicação direta.\n- Resumo Obrigatório: Toda nova lei, portaria ou decreto deve obrigatoriamente trazer um quadro explicativo em linguagem simples antes do texto normativo detalhado.\n- Formato Acessível: Os textos digitais devem ser compatíveis com leitores de tela para pessoas com deficiência visual."
+        resumo: "Órgãos públicos federais são obrigados a publicar resumos em linguagem clara e acessível no Diário Oficial.",
+        historico: "A iniciativa fundamenta-se na Lei de Defesa dos Direitos do Usuário do Serviço Público (Lei nº 13.460/2017) e na Lei de Acesso à Informação (Lei nº 12.527/2011), visando garantir total transparência.",
+        conteudo: "A Instrução Normativa nº 15 estabelece um novo padrão de clareza na administração pública.\n\nRegras estabelecidas:\n- Fim do excesso de jargões técnicos sem explicação.\n- Resumo Obrigatório em linguagem simples antes de qualquer decreto ou portaria.\n- Acessibilidade digital para leitores de tela."
       },
       {
         titulo: "Medida Provisória nº 1.250 - Programa de Crédito Facilitado para MEIs e Microempresas",
@@ -294,8 +294,8 @@
         link_planalto: "http://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm",
         imagem_url: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=1000&q=80",
         resumo: "Nova linha de financiamento com juros reduzidos e carência estendida para impulsionar pequenos negócios.",
-        historico: "A Medida Provisória atualiza e amplia os benefícios contidos no Estatuto Nacional da Microempresa e da Empresa de Pequeno Porte (Lei Complementar nº 123/2006), reforçando o apoio ao empreendedorismo formal.",
-        conteudo: "A Medida Provisória nº 1.250 liberta novas linhas de crédito garantidas pelo Fundo Operacional de Desenvolvimento.\n\nComo funciona para o microempreendedor:\n- Taxas de Juros Reduzidas: Juros prefixados abaixo da taxa média de mercado para capital de giro.\n- Prazo de Carência: O empreendedor terá até 12 meses para começar a pagar as parcelas do empréstimo.\n- Solicitação Digital: A contratação é realizada diretamente nos bancos públicos parceiros ou pelo aplicativo Gov.br, eliminando intermediários."
+        historico: "A Medida Provisória atualiza e amplia os benefícios do Estatuto Nacional da Microempresa e da Empresa de Pequeno Porte (Lei Complementar nº 123/2006).",
+        conteudo: "A Medida Provisória nº 1.250 fomenta o empreendedorismo com crédito simplificado.\n\nComo funciona:\n- Juros Reduzidos abaixo da taxa média de mercado.\n- Prazo de Carência de até 12 meses para início do pagamento.\n- Solicitação digital pelo Gov.br."
       }
     ];
 
@@ -346,7 +346,7 @@
       if (filtradas.length === 0) {
         container.innerHTML = `
           <div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-muted); grid-column: 1/-1;">
-            Nenhuma matéria encontrada neste eixo.
+            Nenhuma matéria encontrada.
           </div>
         `;
         return;
@@ -357,7 +357,6 @@
         const isExpanded = (materiaAbertaId === m.id);
 
         if (isExpanded) {
-          /* Renderização do Card Expandido com Texto Completo, Histórico e Links */
           const linkDouBtn = m.link_dou 
             ? `<a href="${escaparHtml(m.link_dou)}" target="_blank" rel="noopener noreferrer" class="btn-link-custom">🔗 Ver Ato Oficial no DOU</a>` 
             : '';
@@ -408,7 +407,6 @@
           `;
         }
 
-        /* Renderização do Card Fechado */
         return `
           <article class="news-card" onclick="expandirCard(${m.id})">
             <div class="news-bg" style="background-image: url('${escaparHtml(bgImg)}');"></div>
