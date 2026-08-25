@@ -50,7 +50,7 @@
     <!-- TITULO E EIXOS CENTRALIZADOS -->
     <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-1">
-        <i class="fa-solid id-card fa-certificate"></i> Diário Oficial da União Descomplicado
+        <i class="fa-solid fa-certificate"></i> Diário Oficial da União Descomplicado
       </div>
       <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Destaques e Normativas Oficiais</h1>
       <p class="text-slate-600 text-sm">Leitura jornalística, transparente e em linguagem cidadã das principais publicações do Governo Federal.</p>
@@ -75,12 +75,58 @@
       </div>
     </div>
 
-    <!-- Grade de Notícias (Matérias de Ontem + Matérias de Hoje + Salvas via LocalStorage) -->
+    <!-- Grade de Notícias (Matérias de Hoje + Matérias de Ontem + Salvas) -->
     <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
 
-      <!-- ================= MATÉRIAS DE HOJE ================= -->
+      <!-- ================= 4 MATÉRIAS DE HOJE ================= -->
       
-      <!-- Nova Matéria Hoje 1: Econômico -->
+      <!-- Matéria Hoje 1: Junho Vermelho (Social) -->
+      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
+           data-eixo="Social" 
+           onclick="showFullArticle(
+             'Sanção da Lei institui o Junho Vermelho para incentivo à doação de sangue',
+             'Social',
+             'Presidência da República',
+             'https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=1200',
+             'Publicada na edição de hoje do Diário Oficial da União, a Lei Federal institui oficialmente o movimento Junho Vermelho em todo o território nacional. A campanha tem como foco principal conscientizar a população sobre a importância vital da doação regular de sangue.<br><br>O texto estabelece diretrizes para que órgãos públicos federais, estaduais e municipais promovam ações coordenadas de mobilização social, iluminação de prédios públicos com a cor vermelha e parcerias com hemocentros durante todo o mês.<br><br>A medida busca reverter a queda histórica nos estoques de bancos de sangue que costuma ocorrer durante os meses mais frios do ano, garantindo o abastecimento para cirurgias e emergências.',
+             'Institui o mês de conscientização e incentivo à doação regular de sangue em todo o país.',
+             'Facilidade de acesso a campanhas de conscientização e fortalecimento dos estoques de sangue para salvar vidas no SUS.',
+             'Lei Orgânica da Saúde (Lei 8.080/1990)|https://www.planalto.gov.br/ccivil_03/leis/l8080.htm'
+           )">
+        <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
+        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Edição de Hoje</div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-300 bg-rose-950/90 px-2.5 py-1 rounded border border-rose-500/40 inline-block">Presidência da República • Social</span>
+          <h2 class="text-xl font-bold leading-snug">Sanção da Lei institui o Junho Vermelho para incentivo à doação de sangue</h2>
+          <p class="text-xs text-slate-300 line-clamp-2">Nova lei mobiliza o país e órgãos públicos para campanhas contínuas de conscientização e abastecimento de hemocentros...</p>
+        </div>
+      </div>
+
+      <!-- Matéria Hoje 2: Violência Obstétrica e Gestante (Social) -->
+      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
+           data-eixo="Social" 
+           onclick="showFullArticle(
+             'Novos protocolos reforçam combate à violência obstétrica e proteção à gestante no SUS',
+             'Social',
+             'Ministério da Saúde',
+             'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1200',
+             'Portaria interministerial publicada hoje estabelece protocolos obrigatórios e mais rígidos de humanização no atendimento pré-natal e nos partos realizados pela rede pública e conveniada.<br><br>O normativo assegura de forma rigorosa o direito à presença de acompanhante de livre escolha da gestante durante todo o período de trabalho de parto, parto e pós-parto imediato, coibindo práticas abusivas ou intervenções desnecessárias.<br><br>Além disso, o programa prevê ouvidorias ativas nos hospitais e capacitação obrigatória para equipes médicas e de enfermagem focada em respeito, escuta ativa e direitos reprodutivos.',
+             'Estabelece protocolos obrigatórios de humanização e garante direito absoluto a acompanhante no SUS.',
+             'Atendimento mais seguro, respeitoso e humanizado para gestantes e puérperas na rede pública.',
+             'Rede Cegonha / Rede Maternal|https://www.gov.br/saude'
+           )">
+        <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
+        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Edição de Hoje</div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-300 bg-rose-950/90 px-2.5 py-1 rounded border border-rose-500/40 inline-block">Ministério da Saúde • Social</span>
+          <h2 class="text-xl font-bold leading-snug">Novos protocolos reforçam combate à violência obstétrica e proteção à gestante no SUS</h2>
+          <p class="text-xs text-slate-300 line-clamp-2">Portaria exige humanização rigorosa, direito a acompanhante integral e capacitação de equipes hospitalares...</p>
+        </div>
+      </div>
+
+      <!-- Matéria Hoje 3: Energia Solar (Econômico) -->
       <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
            data-eixo="Econômico" 
            onclick="showFullArticle(
@@ -103,7 +149,7 @@
         </div>
       </div>
 
-      <!-- Nova Matéria Hoje 2: Social -->
+      <!-- Matéria Hoje 4: Atendimento Odontológico (Social) -->
       <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
            data-eixo="Social" 
            onclick="showFullArticle(
@@ -250,7 +296,7 @@
       <!-- Conteúdo do Artigo -->
       <div class="p-6 sm:p-10 space-y-8">
 
-        <!-- Texto Completo da Matéria (Movido para cima) -->
+        <!-- Texto Completo da Matéria -->
         <div class="prose max-w-none text-slate-900 text-sm sm:text-base leading-relaxed space-y-4">
           <h3 class="text-lg font-black text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
             <i class="fa-solid fa-newspaper text-emerald-700"></i> Análise e Detalhes da Normativa
@@ -258,7 +304,7 @@
           <div id="articleBody" class="space-y-4 text-slate-700 font-normal"></div>
         </div>
 
-        <!-- Detalhes do Ato (Movido para DEPOIS do texto completo) -->
+        <!-- Detalhes do Ato (Abaixo do texto completo) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-emerald-50/60 border border-emerald-200 p-6 rounded-xl text-xs shadow-sm">
           <div class="space-y-1.5">
             <span class="font-bold text-slate-900 text-sm flex items-center gap-2">
@@ -357,7 +403,6 @@
   </div>
 
   <script>
-    // Carregar notícias salvas no localStorage ao abrir a página
     document.addEventListener("DOMContentLoaded", () => {
       loadSavedNews();
     });
@@ -441,7 +486,6 @@
 
       const newsObj = { titulo, eixo, orgao, imagem, textoCompleto, faz, muda, historico };
 
-      // Salvar no localStorage
       let savedNews = JSON.parse(localStorage.getItem('dou_simples_news') || '[]');
       savedNews.unshift(newsObj);
       localStorage.setItem('dou_simples_news', JSON.stringify(savedNews));
@@ -487,7 +531,6 @@
 
     function loadSavedNews() {
       let savedNews = JSON.parse(localStorage.getItem('dou_simples_news') || '[]');
-      // Renderizar na ordem correta (mais recentes primeiro)
       savedNews.forEach(news => {
         renderCard(news, true);
       });
