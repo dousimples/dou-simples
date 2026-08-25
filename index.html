@@ -1,540 +1,318 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DOU Simples | Imprensa Nacional - Diário Oficial Descomplicado</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    body { background-color: #f1f5f9; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }
-    .custom-scroll::-webkit-scrollbar { width: 6px; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-  </style>
-</head>
-<body class="min-h-screen text-slate-900 flex flex-col">
-
-  <!-- Header Oficial Estilo Imprensa Nacional -->
-  <header class="bg-slate-900 border-b-4 border-emerald-600 px-6 py-4 sticky top-0 z-40 shadow-md">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      
-      <!-- BRAND / LOGO "DOU SIMPLES" -->
-      <a href="#" class="flex items-center gap-3.5 group">
-        <div class="w-11 h-11 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-inner ring-2 ring-emerald-500/50">
-          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-          </svg>
-        </div>
-        <div class="flex flex-col">
-          <div class="flex items-center gap-2">
-            <span class="font-black text-xl tracking-tight text-white leading-none">DOU SIMPLES</span>
-            <span class="bg-emerald-500 text-slate-950 text-[10px] font-black uppercase px-2 py-0.5 rounded tracking-wider">Oficial</span>
-          </div>
-          <span class="text-[11px] font-medium text-emerald-400 tracking-wide mt-0.5">Imprensa Nacional • Resumos e Análises Jornalísticas</span>
-        </div>
-      </a>
-
-      <!-- Botão de Ação -->
-      <div class="flex items-center gap-3">
-        <button onclick="openModal()" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded shadow transition flex items-center gap-2 uppercase tracking-wide">
-          <i class="fa-solid fa-plus"></i> Publicar Matéria
-        </button>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- Conteúdo Principal -->
-  <main class="max-w-7xl mx-auto px-6 py-8 flex-1 w-full">
-    
-    <!-- TITULO E EIXOS CENTRALIZADOS -->
-    <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-1">
-        <i class="fa-solid fa-certificate"></i> Diário Oficial da União Descomplicado
-      </div>
-      <h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Destaques e Normativas Oficiais</h1>
-      <p class="text-slate-600 text-sm">Leitura jornalística, transparente e em linguagem cidadã das principais publicações do Governo Federal.</p>
-      
-      <!-- EIXOS DESTAQUE CENTRALIZADOS -->
-      <div class="pt-3 flex flex-wrap items-center justify-center gap-2">
-        <button onclick="filterCards('all')" class="px-4 py-2 rounded text-xs font-bold bg-slate-900 text-white shadow-sm hover:bg-slate-800 transition">
-          <i class="fa-solid fa-layer-group mr-1.5"></i> Todos os Eixos
-        </button>
-        <button onclick="filterCards('Econômico')" class="px-4 py-2 rounded text-xs font-bold bg-amber-600 text-white shadow-sm hover:bg-amber-700 transition">
-          <i class="fa-solid fa-chart-line mr-1.5"></i> Econômico
-        </button>
-        <button onclick="filterCards('Ambiental')" class="px-4 py-2 rounded text-xs font-bold bg-emerald-700 text-white shadow-sm hover:bg-emerald-800 transition">
-          <i class="fa-solid fa-leaf mr-1.5"></i> Ambiental
-        </button>
-        <button onclick="filterCards('Institucional')" class="px-4 py-2 rounded text-xs font-bold bg-indigo-700 text-white shadow-sm hover:bg-indigo-800 transition">
-          <i class="fa-solid fa-landmark mr-1.5"></i> Institucional
-        </button>
-        <button onclick="filterCards('Social')" class="px-4 py-2 rounded text-xs font-bold bg-rose-700 text-white shadow-sm hover:bg-rose-800 transition">
-          <i class="fa-solid fa-heart mr-1.5"></i> Social
-        </button>
-      </div>
-    </div>
-
-    <!-- Grade de Notícias (Matérias de Hoje + Matérias de Ontem + Salvas) -->
-    <div id="cardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-
-      <!-- ================= 4 MATÉRIAS DE HOJE ================= -->
-      
-      <!-- Matéria Hoje 1: Junho Vermelho (Social) -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Social" 
-           onclick="showFullArticle(
-             'Sanção da Lei institui o Junho Vermelho para incentivo à doação de sangue',
-             'Social',
-             'Presidência da República',
-             'https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=1200',
-             'Publicada na edição de hoje do Diário Oficial da União, a Lei Federal institui oficialmente o movimento Junho Vermelho em todo o território nacional. A campanha tem como foco principal conscientizar a população sobre a importância vital da doação regular de sangue.<br><br>O texto estabelece diretrizes para que órgãos públicos federais, estaduais e municipais promovam ações coordenadas de mobilização social, iluminação de prédios públicos com a cor vermelha e parcerias com hemocentros durante todo o mês.<br><br>A medida busca reverter a queda histórica nos estoques de bancos de sangue que costuma ocorrer durante os meses mais frios do ano, garantindo o abastecimento para cirurgias e emergências.',
-             'Institui o mês de conscientização e incentivo à doação regular de sangue em todo o país.',
-             'Facilidade de acesso a campanhas de conscientização e fortalecimento dos estoques de sangue para salvar vidas no SUS.',
-             'Lei Orgânica da Saúde (Lei 8.080/1990)|https://www.planalto.gov.br/ccivil_03/leis/l8080.htm'
-           )">
-        <img src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Edição de Hoje</div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-rose-300 bg-rose-950/90 px-2.5 py-1 rounded border border-rose-500/40 inline-block">Presidência da República • Social</span>
-          <h2 class="text-xl font-bold leading-snug">Sanção da Lei institui o Junho Vermelho para incentivo à doação de sangue</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Nova lei mobiliza o país e órgãos públicos para campanhas contínuas de conscientização e abastecimento de hemocentros...</p>
-        </div>
-      </div>
-
-      <!-- Matéria Hoje 2: Violência Obstétrica e Gestante (Social) -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Social" 
-           onclick="showFullArticle(
-             'Novos protocolos reforçam combate à violência obstétrica e proteção à gestante no SUS',
-             'Social',
-             'Ministério da Saúde',
-             'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1200',
-             'Portaria interministerial publicada hoje estabelece protocolos obrigatórios e mais rígidos de humanização no atendimento pré-natal e nos partos realizados pela rede pública e conveniada.<br><br>O normativo assegura de forma rigorosa o direito à presença de acompanhante de livre escolha da gestante durante todo o período de trabalho de parto, parto e pós-parto imediato, coibindo práticas abusivas ou intervenções desnecessárias.<br><br>Além disso, o programa prevê ouvidorias ativas nos hospitais e capacitação obrigatória para equipes médicas e de enfermagem focada em respeito, escuta ativa e direitos reprodutivos.',
-             'Estabelece protocolos obrigatórios de humanização e garante direito absoluto a acompanhante no SUS.',
-             'Atendimento mais seguro, respeitoso e humanizado para gestantes e puérperas na rede pública.',
-             'Rede Cegonha / Rede Maternal|https://www.gov.br/saude'
-           )">
-        <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Edição de Hoje</div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-rose-300 bg-rose-950/90 px-2.5 py-1 rounded border border-rose-500/40 inline-block">Ministério da Saúde • Social</span>
-          <h2 class="text-xl font-bold leading-snug">Novos protocolos reforçam combate à violência obstétrica e proteção à gestante no SUS</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Portaria exige humanização rigorosa, direito a acompanhante integral e capacitação de equipes hospitalares...</p>
-        </div>
-      </div>
-
-      <!-- Matéria Hoje 3: Energia Solar (Econômico) -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Econômico" 
-           onclick="showFullArticle(
-             'Novo marco regulatório fomenta investimentos em energia solar compartilhada',
-             'Econômico',
-             'Ministério de Minas e Energia',
-             'https://images.unsplash.com/photo-1509391365360-b883017a42b9?q=80&w=1200',
-             'A Resolução Normativa publicada hoje estabelece novas diretrizes para a geração distribuída de energia solar, desburocratizando o processo de homologação de microgeradores junto às concessionárias de energia.<br><br>A medida visa baratear o custo de instalação para pequenas empresas e condomínios residenciais, permitindo o abatimento de créditos energéticos em múltiplas unidades consumidoras do mesmo titular.<br><br>Especialistas apontam que a nova regra injetará bilhões em capital privado no setor de energias renováveis e ampliará a independência energética nacional.',
-             'Resolução Normativa desburocratiza e facilita a compensação de créditos para energia solar compartilhada.',
-             'Redução significativa na conta de luz de condomínios, comércios e residências que investirem em painéis solares.',
-             'Lei 14.300/2022|https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2022/lei/l14300.htm'
-           )">
-        <img src="https://images.unsplash.com/photo-1509391365360-b883017a42b9?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Edição de Hoje</div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-300 bg-amber-950/90 px-2.5 py-1 rounded border border-amber-500/40 inline-block">MME • Econômico</span>
-          <h2 class="text-xl font-bold leading-snug">Novo marco regulatório fomenta investimentos em energia solar compartilhada</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Resolução simplifica homologações e agiliza abatimentos de créditos energéticos para microgeradores...</p>
-        </div>
-      </div>
-
-      <!-- Matéria Hoje 4: Atendimento Odontológico (Social) -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Social" 
-           onclick="showFullArticle(
-             'Governo expande programa de atendimento odontológico gratuito no SUS',
-             'Social',
-             'Ministério da Saúde',
-             'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=1200',
-             'Portaria do Ministério da Saúde publicada na edição de hoje amplia os repasses financeiros para os Centros de Especialidades Odontológicas (CEOs) em todo o território nacional.<br><br>A medida garante a aquisição de equipamentos de última geração e o custeio de procedimentos complexos, como implantes dentários e cirurgias bucomaxilofaciais, diretamente na rede pública.<br><br>O objetivo é zerar as filas de espera por próteses e tratamentos especializados em municípios de médio e pequeno porte.',
-             'Portaria amplia repasses e garante implantes e cirurgias de alta complexidade nos CEOs do SUS.',
-             'Acesso facilitado a tratamentos dentários avançados e próteses de graça pelo sistema público de saúde.',
-             'Política Nacional de Saúde Bucal|https://www.gov.br/saude'
-           )">
-        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Edição de Hoje</div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-rose-300 bg-rose-950/90 px-2.5 py-1 rounded border border-rose-500/40 inline-block">Ministério da Saúde • Social</span>
-          <h2 class="text-xl font-bold leading-snug">Governo expande programa de atendimento odontológico gratuito no SUS</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Portaria destina verbas extras para implantes e cirurgias especializadas nos postos e centros públicos...</p>
-        </div>
-      </div>
-
-      <!-- ================= MATÉRIAS DE ONTEM ================= -->
-
-      <!-- Card 1: Econômico -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Econômico" 
-           onclick="showFullArticle(
-             'Governo concede incentivos fiscais para empresas que poluírem menos',
-             'Econômico',
-             'Atos do Poder Executivo',
-             'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200',
-             'A Medida Provisória nº 1.310/2026 estabelece diretrizes para a concessão de incentivos fiscais e linhas de crédito subsidiadas direcionadas a indústrias nacionais que apresentarem metas auditáveis de descarbonização.<br><br>A medida busca alinhar o parque industrial brasileiro com os compromissos climáticos globais, estimulando a substituição de matrizes energéticas poluidoras por fontes limpas. As empresas qualificadas terão redução progressiva no IPI e preferência em licitações governamentais.<br><br>Segundo os especialistas do setor financeiro, a ação deve atrair bilhões em novos investimentos privados e impulsionar a contratação de mão de obra qualificada no setor de tecnologia verde.',
-             'MP nº 1.310/2026 autoriza benefícios fiscais diretos e facilita acesso a crédito verde para indústrias sustentáveis.',
-             'Redução do custo industrial, atração de investimentos internacionais e geração de empregos na transição ecológica.',
-             'Lei do Bem (Lei 11.196/2005)|https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/lei/l11196.htm, Emenda Constitucional 132/2023|https://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc132.htm'
-           )">
-        <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-amber-300 bg-amber-950/90 px-2.5 py-1 rounded border border-amber-500/40 inline-block">Atos do Poder Executivo • Econômico</span>
-          <h2 class="text-xl font-bold leading-snug">Governo concede incentivos fiscais para empresas que poluírem menos</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">A Medida Provisória nº 1.310/2026 estabelece incentivos fiscais e crédito facilitado para indústrias com metas de descarbonização...</p>
-        </div>
-      </div>
-
-      <!-- Card 2: Ambiental -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Ambiental" 
-           onclick="showFullArticle(
-             'Dinheiro do Fundo Clima e novos satélites reforçam proteção da Amazônia e do Cerrado',
-             'Ambiental',
-             'Ministério do Meio Ambiente e Mudança do Clima',
-             'https://images.unsplash.com/photo-1511497584788-876761c11969?q=80&w=1200',
-             'Foi publicado hoje o Decreto nº 12.450/2026, que regulamenta o repasse de recursos do Fundo Clima e autoriza a contratação de novo sistema orbital de monitoramento por satélite de alta resolução.<br><br>A nova infraestrutura tecnológica permitirá a identificação imediata de focos de desmatamento ilegal e degradação florestal na Amazônia e no Cerrado, enviando alertas em tempo real para os órgãos de fiscalização antes que a derrubada de árvores se consolide.<br><br>Além da fiscalização, a medida prevê o financiamento direto de projetos de bioeconomia para comunidades tradicionais e povos indígenas residentes nas áreas protegidas.',
-             'Decreto nº 12.450/2026 libera verbas do Fundo Clima e implementa alertas por satélite em tempo real.',
-             'Combate efetivo ao desmatamento, preservação da biodiversidade nacional e garantia da sustentabilidade territorial.',
-             'Lei do Fundo Clima (Lei 12.114/2009)|https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2009/lei/l12114.htm, PPCDAm e PPCerrado'
-           )">
-        <img src="https://images.unsplash.com/photo-1511497584788-876761c11969?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/90 px-2.5 py-1 rounded border border-emerald-500/40 inline-block">Ministério do Meio Ambiente • Ambiental</span>
-          <h2 class="text-xl font-bold leading-snug">Dinheiro do Fundo Clima e novos satélites reforçam proteção da Amazônia</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Decreto autoriza investimento multimilionário no combate ao desmatamento ilegal e na proteção dos biomas nacionais...</p>
-        </div>
-      </div>
-
-      <!-- Card 3: Institucional -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Institucional" 
-           onclick="showFullArticle(
-             'Governo cria grupo para fiscalizar uso de inteligência artificial nos serviços públicos',
-             'Institucional',
-             'Presidência da República',
-             'https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1200',
-             'Através do Decreto nº 12.451/2026, a Presidência da República instituiu formalmente o Comitê de Governança Digital e Transparência Algorítmica.<br><br>O órgão terá como atribuição realizar auditorias técnicas periódicas em todas as soluções de inteligência artificial utilizadas pela administração pública federal na concessão de benefícios, atendimento ao cidadão e triagem de processos.<br><br>O objetivo principal é evitar vieses discriminatórios, garantir o direito à revisão humana em decisões automatizadas e assegurar total conformidade com a Lei Geral de Proteção de Dados (LGPD).',
-             'Cria comitê de auditoria para regulamentar e fiscalizar o uso de IA nos órgãos públicos federais.',
-             'Garantia de atendimento justo, proteção dos dados pessoais do cidadão e combate a erros em decisões automatizadas.',
-             'Lei de Acesso à Informação (Lei 12.527/2011)|https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm, LGPD (Lei 13.709/2018)|https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm, Governo Digital (Lei 14.129/2021)|https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14129.htm'
-           )">
-        <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 bg-indigo-950/90 px-2.5 py-1 rounded border border-indigo-500/40 inline-block">Presidência da República • Institucional</span>
-          <h2 class="text-xl font-bold leading-snug">Governo cria grupo para fiscalizar uso de inteligência artificial</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Comitê vai auditar decisões automatizadas para evitar discriminações e proteger o cidadão nos atendimentos do Estado...</p>
-        </div>
-      </div>
-
-      <!-- Card 4: Social -->
-      <div class="card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200" 
-           data-eixo="Social" 
-           onclick="showFullArticle(
-             'Regras mais simples vão acelerar liberação do BPC para idosos e pessoas com deficiência',
-             'Social',
-             'Ministério do Desenvolvimento e Assistência Social',
-             'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1200',
-             'A Portaria Interministerial nº 42/2026, publicada nesta edição do Diário Oficial da União, estabelece a simplificação dos procedimentos de avaliação social e médica pericial para a concessão do Benefício de Prestação Continuada (BPC).<br><br>A medida padroniza a aceitação de laudos emitidos pela rede pública de saúde (SUS) e autoriza a realização de teleperícias em municípios de difícil acesso, visando reduzir drasticamente o tempo médio de espera no INSS.<br><br>Além disso, o texto desburocratiza a atualização cadastral para famílias de baixa renda, garantindo que idosos acima de 65 anos e pessoas com deficiência em situação de vulnerabilidade tenham acesso ao salário mínimo mensal sem interrupções indevidas.',
-             'Portaria Interministerial nº 42/2026 simplifica laudos médicos e padroniza a avaliação do BPC.',
-             'Redução expressiva na fila de espera e acesso mais rápido e justo ao benefício assistencial.',
-             'LOAS (Lei 8.742/1993)|https://www.planalto.gov.br/ccivil_03/leis/l8742.htm, Decreto 6.214/2007|https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2007/decreto/D6214compilado.htm, Lei 14.724/2023|https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14724.htm'
-           )">
-        <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=800" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-rose-300 bg-rose-950/90 px-2.5 py-1 rounded border border-rose-500/40 inline-block">Desenvolvimento Social • Social</span>
-          <h2 class="text-xl font-bold leading-snug">Regras mais simples vão acelerar liberação do BPC para idosos</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">Portaria simplifica laudos do SUS e teleperícias para zerar filas de espera para pessoas com deficiência e idosos...</p>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Rodapé Institucional -->
-  <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-6 px-6 mt-12 text-xs text-center">
-    <div class="max-w-7xl mx-auto space-y-1">
-      <p class="font-bold text-slate-300">DOU Simples — Transparência e Linguagem Cidadã baseada no Diário Oficial da União</p>
-      <p>Desenvolvido para facilitar o acesso à informação pública e normativa federal.</p>
-    </div>
-  </footer>
-
-  <!-- LEITOR DA MATÉRIA COMPLETA (TELA CHEIA) -->
-  <div id="fullArticleModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden overflow-y-auto custom-scroll p-3 sm:p-6 md:p-10">
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden border border-slate-300 my-auto relative">
-      
-      <!-- Botão Fechar -->
-      <button onclick="closeFullArticle()" class="absolute top-4 right-4 z-20 bg-slate-900/80 hover:bg-slate-900 text-white w-10 h-10 rounded-full flex items-center justify-center transition shadow">
-        <i class="fa-solid fa-xmark text-lg"></i>
-      </button>
-
-      <!-- Imagem de Capa -->
-      <div class="relative h-72 sm:h-96 w-full">
-        <img id="articleImage" src="" class="w-full h-full object-cover" alt="Capa da Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent"></div>
-        <div class="absolute bottom-6 left-6 right-6 text-white space-y-2">
-          <span id="articleBadge" class="text-xs font-bold uppercase tracking-wider bg-emerald-600 px-3 py-1 rounded text-white inline-block"></span>
-          <h1 id="articleTitle" class="text-2xl sm:text-3xl font-black leading-tight"></h1>
-          <p id="articleSub" class="text-xs sm:text-sm text-slate-300 font-medium"></p>
-        </div>
-      </div>
-
-      <!-- Conteúdo do Artigo -->
-      <div class="p-6 sm:p-10 space-y-8">
-
-        <!-- Texto Completo da Matéria -->
-        <div class="prose max-w-none text-slate-900 text-sm sm:text-base leading-relaxed space-y-4">
-          <h3 class="text-lg font-black text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
-            <i class="fa-solid fa-newspaper text-emerald-700"></i> Análise e Detalhes da Normativa
-          </h3>
-          <div id="articleBody" class="space-y-4 text-slate-700 font-normal"></div>
-        </div>
-
-        <!-- Detalhes do Ato (Abaixo do texto completo) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-emerald-50/60 border border-emerald-200 p-6 rounded-xl text-xs shadow-sm">
-          <div class="space-y-1.5">
-            <span class="font-bold text-slate-900 text-sm flex items-center gap-2">
-              <i class="fa-solid fa-file-signature text-emerald-700"></i> O que o ato faz
-            </span>
-            <p id="articleFaz" class="text-slate-700 leading-relaxed font-medium"></p>
-          </div>
-          <div class="space-y-1.5">
-            <span class="font-bold text-slate-900 text-sm flex items-center gap-2">
-              <i class="fa-solid fa-user-check text-indigo-700"></i> O que muda para você
-            </span>
-            <p id="articleMuda" class="text-slate-700 leading-relaxed font-medium"></p>
-          </div>
-        </div>
-
-        <!-- Histórico no DOU com Links Diretos -->
-        <div class="border-t border-slate-200 pt-6 space-y-2">
-          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Histórico de Atos Relacionados no Planalto / DOU</h4>
-          <div id="articleHistory" class="flex flex-wrap gap-2 pt-1"></div>
-        </div>
-
-        <!-- Rodapé do Modal -->
-        <div class="flex justify-end pt-4 border-t border-slate-200">
-          <button onclick="closeFullArticle()" class="px-6 py-2.5 rounded bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition uppercase tracking-wide">
-            Voltar para a lista de notícias
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL FORMULÁRIO PARA NOVA MATÉRIA -->
-  <div id="modalForm" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-2xl rounded-xl shadow-2xl border border-slate-300 p-6 relative space-y-4 max-h-[90vh] overflow-y-auto custom-scroll">
-      <div class="flex justify-between items-center border-b border-slate-200 pb-3">
-        <h3 class="text-sm font-black text-slate-900 flex items-center gap-2 uppercase tracking-wide">
-          <i class="fa-solid fa-pen-to-square text-emerald-700"></i> Publicar Matéria no Diário Oficial
-        </h3>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
-      </div>
-
-      <form id="newsForm" onsubmit="addNewsCard(event)" class="space-y-4 text-xs">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Eixo Temático</label>
-            <select id="formEixo" required class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-              <option value="Econômico">Econômico</option>
-              <option value="Ambiental">Ambiental</option>
-              <option value="Institucional">Institucional</option>
-              <option value="Social">Social</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Órgão Emissor</label>
-            <input type="text" id="formOrgao" placeholder="Ex: Ministério da Saúde" required class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Título da Matéria</label>
-          <input type="text" id="formTitulo" placeholder="Título completo da publicação" required class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">URL da Imagem de Capa (Opcional)</label>
-          <input type="url" id="formImagem" placeholder="https://exemplo.com/foto.jpg (Deixe em branco para usar imagem padrão)" class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">O que o ato faz (Resumo em linguagem simples)</label>
-          <input type="text" id="formFaz" placeholder="Breve resumo em uma frase" required class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">O que muda para você (Impacto direto)</label>
-          <input type="text" id="formMuda" placeholder="Como isso afeta a vida do cidadão" required class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Texto Completo da Matéria</label>
-          <textarea id="formTextoCompleto" rows="5" placeholder="Escreva ou cole a matéria explicativa..." required class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none leading-relaxed"></textarea>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Histórico de Atos (Nome|URL separadas por vírgula)</label>
-          <input type="text" id="formHistorico" placeholder="Ex: Lei 14.000/2021|https://..., Decreto 8.000/2018|https://..." class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 focus:ring-2 focus:ring-slate-900 outline-none">
-        </div>
-
-        <div class="flex justify-end gap-2 pt-2 border-t border-slate-200">
-          <button type="button" onclick="closeModal()" class="px-4 py-2 rounded text-slate-700 bg-slate-100 hover:bg-slate-200 font-bold">Cancelar</button>
-          <button type="submit" class="px-5 py-2 rounded text-white bg-emerald-700 hover:bg-emerald-800 font-bold shadow uppercase tracking-wide">Publicar Notícia</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      loadSavedNews();
-    });
-
-    function openModal() { document.getElementById('modalForm').classList.remove('hidden'); }
-    function closeModal() { document.getElementById('modalForm').classList.add('hidden'); }
-    function closeFullArticle() { document.getElementById('fullArticleModal').classList.add('hidden'); }
-
-    function filterCards(axis) {
-      const cards = document.querySelectorAll('.card-item');
-      cards.forEach(card => {
-        if (axis === 'all' || card.getAttribute('data-eixo') === axis) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imprensa Nacional - Portal de Matérias</title>
+    <!-- Tailwind CSS para estilização moderna e limpa -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
         }
-      });
-    }
+        .serif-title {
+            font-family: 'Merriweather', serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
 
-    function showFullArticle(titulo, eixo, orgao, imagem, textoCompleto, faz, muda, historico) {
-      document.getElementById('articleTitle').innerText = titulo;
-      document.getElementById('articleSub').innerText = `${orgao} • Diário Oficial da União`;
-      document.getElementById('articleBadge').innerText = eixo;
-      document.getElementById('articleImage').src = imagem;
-      document.getElementById('articleFaz').innerText = faz;
-      document.getElementById('articleMuda').innerText = muda;
-      
-      document.getElementById('articleBody').innerHTML = textoCompleto;
-
-      const historyContainer = document.getElementById('articleHistory');
-      historyContainer.innerHTML = '';
-      if(historico) {
-        historico.split(',').forEach(item => {
-          const parts = item.trim().split('|');
-          const label = parts[0];
-          const url = parts[1];
-
-          if(label) {
-            if(url) {
-              const link = document.createElement('a');
-              link.href = url.trim();
-              link.target = '_blank';
-              link.rel = 'noopener noreferrer';
-              link.className = 'bg-slate-100 hover:bg-emerald-50 text-slate-800 hover:text-emerald-700 font-semibold px-3 py-1.5 rounded text-xs border border-slate-300 flex items-center gap-1.5 transition shadow-sm';
-              link.innerHTML = `<span>${label}</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>`;
-              historyContainer.appendChild(link);
-            } else {
-              const badge = document.createElement('span');
-              badge.className = 'bg-slate-100 text-slate-700 font-medium px-3 py-1.5 rounded text-xs border border-slate-300';
-              badge.innerText = label;
-              historyContainer.appendChild(badge);
-            }
-          }
-        });
-      }
-
-      document.getElementById('fullArticleModal').classList.remove('hidden');
-    }
-
-    function addNewsCard(event) {
-      event.preventDefault();
-      const eixo = document.getElementById('formEixo').value;
-      const orgao = document.getElementById('formOrgao').value;
-      const titulo = document.getElementById('formTitulo').value;
-      let imagem = document.getElementById('formImagem').value;
-      const faz = document.getElementById('formFaz').value;
-      const muda = document.getElementById('formMuda').value;
-      const textoCompleto = document.getElementById('formTextoCompleto').value.replace(/\n/g, '<br><br>');
-      const historico = document.getElementById('formHistorico').value;
-
-      const bgImages = {
-        'Econômico': 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800',
-        'Ambiental': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=800',
-        'Institucional': 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=800',
-        'Social': 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800'
-      };
-
-      if (!imagem) {
-        imagem = bgImages[eixo] || bgImages['Institucional'];
-      }
-
-      const newsObj = { titulo, eixo, orgao, imagem, textoCompleto, faz, muda, historico };
-
-      let savedNews = JSON.parse(localStorage.getItem('dou_simples_news') || '[]');
-      savedNews.unshift(newsObj);
-      localStorage.setItem('dou_simples_news', JSON.stringify(savedNews));
-
-      renderCard(newsObj, true);
-      document.getElementById('newsForm').reset();
-      closeModal();
-    }
-
-    function renderCard(news, prepend = false) {
-      const newCard = document.createElement('div');
-      newCard.className = 'card-item group relative rounded-xl overflow-hidden h-96 shadow-md cursor-pointer transition transform hover:-translate-y-1 border border-slate-200';
-      newCard.setAttribute('data-eixo', news.eixo);
-      
-      newCard.onclick = () => showFullArticle(news.titulo, news.eixo, news.orgao, news.imagem, news.textoCompleto, news.faz, news.muda, news.historico);
-
-      const tagColors = {
-        'Econômico': 'text-amber-300 bg-amber-950/90 border-amber-500/40',
-        'Ambiental': 'text-emerald-300 bg-emerald-950/90 border-emerald-500/40',
-        'Institucional': 'text-indigo-300 bg-indigo-950/90 border-indigo-500/40',
-        'Social': 'text-rose-300 bg-rose-950/90 border-rose-500/40'
-      };
-      const badgeStyle = tagColors[news.eixo] || 'text-slate-200 bg-slate-900 border-slate-700';
-
-      newCard.innerHTML = `
-        <img src="${news.imagem}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Notícia">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent"></div>
-        <div class="absolute top-4 left-4 bg-emerald-600 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow">Nova Publicação</div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 text-white space-y-2">
-          <span class="text-xs font-bold uppercase tracking-wider ${badgeStyle} px-2.5 py-1 rounded border inline-block">${news.orgao} • ${news.eixo}</span>
-          <h2 class="text-xl font-bold leading-snug">${news.titulo}</h2>
-          <p class="text-xs text-slate-300 line-clamp-2">${news.faz}</p>
+    <!-- TOPO / HEADER INSTITUCIONAL -->
+    <header class="bg-[#1b3a4b] text-white shadow-md border-b-4 border-[#c59b27]">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-3 md:mb-0">
+                <div class="bg-[#c59b27] p-2 rounded text-[#1b3a4b] font-bold text-xl">DOU</div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide serif-title">IMPRENSA NACIONAL</h1>
+                    <p class="text-xs text-slate-300">Portal Oficial de Atos Normativos e Diário Oficial</p>
+                </div>
+            </div>
+            <!-- Botão de Publicar Matéria (Admin) -->
+            <button onclick="abrirModalPublicar()" class="bg-[#c59b27] hover:bg-[#b08820] text-[#1b3a4b] font-bold px-4 py-2 rounded text-sm transition shadow flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                <span>Publicar Matéria</span>
+            </button>
         </div>
-      `;
+    </header>
 
-      const grid = document.getElementById('cardsGrid');
-      if (prepend) {
-        grid.prepend(newCard);
-      } else {
-        grid.appendChild(newCard);
-      }
-    }
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- COLUNA DA ESQUERDA: LISTA DE MATÉRIAS (2 colunas) -->
+        <section class="lg:col-span-2 space-y-6">
+            <div class="border-b border-slate-300 pb-2 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-[#1b3a4b] uppercase tracking-wider serif-title border-l-4 border-[#1b3a4b] pl-3">Últimas Publicações</h2>
+                <span id="contador-materias" class="text-xs bg-slate-200 text-slate-700 px-2 py-1 rounded font-semibold">Carregando...</span>
+            </div>
 
-    function loadSavedNews() {
-      let savedNews = JSON.parse(localStorage.getItem('dou_simples_news') || '[]');
-      savedNews.forEach(news => {
-        renderCard(news, true);
-      });
-    }
-  </script>
+            <!-- Lista Dinâmica -->
+            <div id="lista-materias" class="space-y-4">
+                <!-- As matérias serão inseridas aqui via JavaScript -->
+                <p class="text-sm text-slate-500 italic">Buscando matérias na nuvem...</p>
+            </div>
+        </section>
+
+        <!-- COLUNA DA DIREITA: LEITURA EM DESTAQUE / VISUALIZAÇÃO DA MATÉRIA -->
+        <section class="bg-white border border-slate-200 rounded-lg p-6 shadow-sm h-fit sticky top-6">
+            <div id="painel-leitura">
+                <div class="text-center py-12 text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    <p class="text-sm font-medium">Selecione uma matéria ao lado para ler o ato completo e os impactos.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER INSTITUCIONAL -->
+    <footer class="bg-[#1b3a4b] text-slate-300 text-xs py-6 mt-12 border-t border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>Imprensa Nacional — Órgão vinculado à Casa Civil da Presidência da República</p>
+            <p class="text-slate-400">Desenvolvido com padrão oficial de transparência e acesso à informação.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DE PUBLICAR MATÉRIA -->
+    <div id="modal-publicar" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-t-4 border-[#1b3a4b]">
+            <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <h3 class="text-lg font-bold text-[#1b3a4b] serif-title">Publicar Nova Matéria / Ato Oficial</h3>
+                <button onclick="fecharModalPublicar()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+            </div>
+            
+            <form id="form-publicar" onsubmit="salvarMateria(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Título da Matéria / Norma</label>
+                    <input type="text" id="pub-titulo" required class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-2 focus:ring-[#1b3a4b] outline-none" placeholder="Ex: Portaria Conjunta nº 45/2026">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Eixo Temático</label>
+                        <select id="pub-eixo" class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-2 focus:ring-[#1b3a4b] outline-none">
+                            <option value="Saúde">Saúde</option>
+                            <option value="Trabalho e Previdência">Trabalho e Previdência</option>
+                            <option value="Economia e Fazenda">Economia e Fazenda</option>
+                            <option value="Educação">Educação</option>
+                            <option value="Justiça e Segurança">Justiça e Segurança</option>
+                            <option value="Geral">Geral</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Órgão Emissor</label>
+                        <input type="text" id="pub-orgao" required class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-2 focus:ring-[#1b3a4b] outline-none" placeholder="Ex: Ministério da Saúde">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">URL da Imagem de Capa (Opcional)</label>
+                    <input type="url" id="pub-imagem" class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-2 focus:ring-[#1b3a4b] outline-none" placeholder="https://exemplo.com/imagem.jpg">
+                    <span class="text-[10px] text-slate-500">Se deixar vazio, o sistema atribuirá uma imagem padrão baseada no eixo.</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-emerald-800 uppercase mb-1">O que o ato faz (Resumo Direto)</label>
+                        <textarea id="pub-faz" rows="3" required class="w-full border border-emerald-300 bg-emerald-50/30 rounded p-2 text-sm focus:ring-2 focus:ring-emerald-700 outline-none" placeholder="Explique sucintamente o objetivo do ato..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-blue-800 uppercase mb-1">O que muda para você (Impacto Prático)</label>
+                        <textarea id="pub-muda" rows="3" required class="w-full border border-blue-300 bg-blue-50/30 rounded p-2 text-sm focus:ring-2 focus:ring-blue-700 outline-none" placeholder="Explique o que muda na prática para o cidadão..."></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Texto Completo da Matéria</label>
+                    <textarea id="pub-texto" rows="5" required class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-2 focus:ring-[#1b3a4b] outline-none" placeholder="Insira o texto oficial completo..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Histórico / Contexto (Opcional)</label>
+                    <input type="text" id="pub-historico" class="w-full border border-slate-300 rounded p-2 text-sm focus:ring-2 focus:ring-[#1b3a4b] outline-none" placeholder="Ex: Altera o Decreto nº 10.500/2020">
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="fecharModalPublicar()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded text-sm font-semibold transition">Cancelar</button>
+                    <button type="submit" id="btn-salvar-pub" class="bg-[#1b3a4b] hover:bg-[#142c38] text-white px-5 py-2 rounded text-sm font-semibold transition">Publicar Matéria</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE INTEGRAÇÃO SUPABASE & LOGICA -->
+    <script>
+        // Configuração do Supabase com suas credenciais oficiais
+        const SUPABASE_URL = 'https://wjqiwvswdpkisvjotzyc.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_EmZcTTfqPGMBG7_rjzh09g_18qMQ-AB';
+        
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let noticiasCache = [];
+
+        // Imagens padrão por eixo
+        const imagensPadrao = {
+            "Saúde": "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80",
+            "Trabalho e Previdência": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+            "Economia e Fazenda": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80",
+            "Educação": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
+            "Justiça e Segurança": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80",
+            "Geral": "https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=800&q=80"
+        };
+
+        async function carregarNoticias() {
+            const listaEl = document.getElementById('lista-materias');
+            const contadorEl = document.getElementById('contador-materias');
+
+            const { data, error } = await _supabase
+                .from('noticias')
+                .select('*')
+                .order('id', { ascending: false });
+
+            if (error) {
+                console.error('Erro ao buscar notícias:', error);
+                listaEl.innerHTML = `<p class="text-sm text-red-600 bg-red-50 p-4 rounded border border-red-200">Erro ao carregar matérias do servidor.</p>`;
+                contadorEl.textContent = '0 matérias';
+                return;
+            }
+
+            noticiasCache = data || [];
+            contadorEl.textContent = `${noticiasCache.length} matérias`;
+
+            if (noticiasCache.length === 0) {
+                listaEl.innerHTML = `<p class="text-sm text-slate-500 bg-white p-6 rounded border border-slate-200 text-center">Nenhuma matéria publicada até o momento.</p>`;
+                return;
+            }
+
+            renderizarLista();
+            // Seleciona a primeira por padrão
+            if (noticiasCache.length > 0) {
+                verDetalhes(noticiasCache[0].id);
+            }
+        }
+
+        function renderizarLista() {
+            const listaEl = document.getElementById('lista-materias');
+            listaEl.innerHTML = '';
+
+            noticiasCache.forEach(mat => {
+                const img = mat.imagem && mat.imagem.trim() !== '' ? mat.imagem : (imagensPadrao[mat.eixo] || imagensPadrao["Geral"]);
+                
+                const card = document.createElement('div');
+                card.className = "bg-white border border-slate-200 rounded-lg p-4 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col md:flex-row gap-4 items-center";
+                card.onclick = () => verDetalhes(mat.id);
+
+                card.innerHTML = `
+                    <img src="${img}" alt="Capa" class="w-full md:w-32 h-24 object-cover rounded border border-slate-100 flex-shrink-0">
+                    <div class="flex-grow space-y-1 w-full">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-[#1b3a4b] px-2 py-0.5 rounded">${mat.eixo}</span>
+                            <span class="text-[10px] text-slate-400">• ${mat.orgao}</span>
+                        </div>
+                        <h3 class="text-base font-bold text-[#1b3a4b] serif-title hover:text-[#c59b27] transition">${mat.titulo}</h3>
+                        <p class="text-xs text-slate-600 line-clamp-2">${mat.faz}</p>
+                    </div>
+                `;
+                listaEl.appendChild(card);
+            });
+        }
+
+        function verDetalhes(id) {
+            const mat = noticiasCache.find(m => m.id == id);
+            if (!mat) return;
+
+            const painel = document.getElementById('painel-leitura');
+            const img = mat.imagem && mat.imagem.trim() !== '' ? mat.imagem : (imagensPadrao[mat.eixo] || imagensPadrao["Geral"]);
+
+            painel.innerHTML = `
+                <div class="space-y-4 max-h-[80vh] overflow-y-auto pr-1">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-bold uppercase bg-slate-100 text-[#1b3a4b] px-2 py-0.5 rounded">${mat.eixo}</span>
+                        <span class="text-xs text-slate-500">${mat.orgao}</span>
+                    </div>
+
+                    <h2 class="text-xl font-bold text-[#1b3a4b] serif-title">${mat.titulo}</h2>
+
+                    <img src="${img}" alt="Capa da Matéria" class="w-full h-48 object-cover rounded border border-slate-200 shadow-sm">
+
+                    <!-- TEXTO COMPLETO -->
+                    <div class="text-sm text-slate-700 leading-relaxed border-t border-b border-slate-100 py-3 whitespace-pre-line">
+                        ${mat.texto_completo}
+                    </div>
+
+                    <!-- DESTAQUES: O QUE O ATO FAZ E O QUE MUDA -->
+                    <div class="space-y-3 pt-2">
+                        <div class="bg-emerald-50 border-l-4 border-emerald-600 p-3 rounded-r">
+                            <h4 class="text-xs font-bold text-emerald-900 uppercase mb-1">O que o ato faz</h4>
+                            <p class="text-xs text-emerald-800 leading-relaxed">${mat.faz}</p>
+                        </div>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-600 p-3 rounded-r">
+                            <h4 class="text-xs font-bold text-blue-900 uppercase mb-1">O que muda para você</h4>
+                            <p class="text-xs text-blue-800 leading-relaxed">${mat.muda}</p>
+                        </div>
+                    </div>
+
+                    ${mat.historico ? `<div class="text-[11px] text-slate-500 italic pt-2">Contexto/Histórico: ${mat.historico}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function abrirModalPublicar() {
+            document.getElementById('modal-publicar').classList.remove('hidden');
+        }
+
+        function fecharModalPublicar() {
+            document.getElementById('modal-publicar').classList.add('hidden');
+            document.getElementById('form-publicar').reset();
+        }
+
+        async function salvarMateria(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-salvar-pub');
+            btn.textContent = "Publicando...";
+            btn.disabled = true;
+
+            const novaNoticia = {
+                titulo: document.getElementById('pub-titulo').value,
+                eixo: document.getElementById('pub-eixo').value,
+                orgao: document.getElementById('pub-orgao').value,
+                imagem: document.getElementById('pub-imagem').value,
+                faz: document.getElementById('pub-faz').value,
+                muda: document.getElementById('pub-muda').value,
+                texto_completo: document.getElementById('pub-texto').value,
+                historico: document.getElementById('pub-historico').value
+            };
+
+            const { data, error } = await _supabase
+                .from('noticias')
+                .insert([novaNoticia])
+                .select();
+
+            btn.textContent = "Publicar Matéria";
+            btn.disabled = false;
+
+            if (error) {
+                console.error('Erro ao salvar no Supabase:', error);
+                alert('Erro ao publicar matéria no servidor.');
+                return;
+            }
+
+            fecharModalPublicar();
+            carregarNoticias();
+        }
+
+        // Inicializar carregamento ao abrir a página
+        window.onload = carregarNoticias;
+    </script>
 </body>
 </html>
